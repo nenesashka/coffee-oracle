@@ -1,0 +1,44 @@
+name: Publish site
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+      - name: Restore licensed website font assets
+        env:
+          LIGHT_1: ${{ secrets.VISUELT_LIGHT_1 }}
+          LIGHT_2: ${{ secrets.VISUELT_LIGHT_2 }}
+          REGULAR_1: ${{ secrets.VISUELT_REGULAR_1 }}
+          REGULAR_2: ${{ secrets.VISUELT_REGULAR_2 }}
+        run: |
+          set -euo pipefail
+          mkdir -p public/fonts
+          printf '%s' "$LIGHT_1" | base64 --decode > public/fonts/visuelt-light-3006.woff2
+          printf '%s' "$LIGHT_2" | base64 --decode >> public/fonts/visuelt-light-3006.woff2
+          printf '%s' "$REGULAR_1" | base64 --decode > public/fonts/visuelt-regular-3006.woff2
+          printf '%s' "$REGULAR_2" | base64 --decode >> public/fonts/visuelt-regular-3006.woff2
+          test -s public/fonts/visuelt-light-3006.woff2
+          test -s public/fonts/visuelt-regular-3006.woff2
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+      - uses: actions/deploy-pages@v4
+        id: deployment
