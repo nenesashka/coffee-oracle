@@ -49,6 +49,7 @@
   #zavarilos-stop-motion-v6 .z5-photo .z5-wiggle { padding:7px; background:var(--z5-cream); clip-path:polygon(1% 2%,20% 0,46% 1%,72% 0,99% 2%,100% 30%,99% 60%,100% 99%,71% 98%,41% 100%,0 98%,1% 72%); }
   #zavarilos-stop-motion-v6 .z5-photo img { display:block; width:100%; height:100%; object-fit:cover; object-position:51% 20%; }
   #zavarilos-stop-motion-v6 .z5-tape { z-index:16; }
+  #zavarilos-stop-motion-v6 .z5-tape .z5-wiggle { transform:rotate(var(--z5-angle)); }
   #zavarilos-stop-motion-v6 .z5-spoon, #zavarilos-stop-motion-v6 .z5-seal { z-index:3; }
   #zavarilos-stop-motion-v6 .z5-eye, #zavarilos-stop-motion-v6 .z5-arrow { z-index:7; }
   #zavarilos-stop-motion-v6 .z5-croissant, #zavarilos-stop-motion-v6 .z5-danish { z-index:8; }
@@ -247,8 +248,17 @@ function createSignDrawer() {
       const wiggle=el.querySelector('.z5-wiggle');if(wiggle){wiggle.style.setProperty('--z5-angle',angle+'deg');wiggle.style.setProperty('--z5-duration',duration+'s');}
       return{x,y,w,h};
     }
-    const ph=place(pieces.photo,mix(W*.01,-W*.02),mix(heroH*.035,3),W*.35,W*.35/.75,mix(-9,-13),1.9);
-    place(pieces.tape,ph.x+ph.w*.16,ph.y-14,ph.w*.62,ph.w*.62/2.2,-18,1.9);
+    const photoAngle = mix(-9, -13);
+    const ph=place(pieces.photo,mix(W*.01,-W*.02),mix(heroH*.035,3),W*.35,W*.35/.75,photoAngle,1.9);
+    const photoRotation = photoAngle * Math.PI / 180;
+    const tapeWidth = ph.w * .59;
+    const tapeHeight = tapeWidth / 2.2;
+    // Anchor the tape to the tilted upper-right corner as the photo moves.
+    const offsetX = ph.w * .38;
+    const offsetY = -ph.h * .44;
+    const tapeCenterX = ph.x + ph.w / 2 + offsetX * Math.cos(photoRotation) - offsetY * Math.sin(photoRotation);
+    const tapeCenterY = ph.y + ph.h / 2 + offsetX * Math.sin(photoRotation) + offsetY * Math.cos(photoRotation);
+    place(pieces.tape,tapeCenterX-tapeWidth/2,tapeCenterY-tapeHeight/2,tapeWidth,tapeHeight,photoAngle+48,1.9);
     place(pieces.spoon,mix(W*.55,W*.63),mix(heroH*.035,0),W*.40,W*.40/.93,-8,1.45);
     place(pieces.eye,mix(W*.69,W*.60),mix(heroH*.46,openH*.14),W*.34,W*.34/2.2,12,1.65);
     place(pieces.croissant,mix(W*.60,W*.65),mix(heroH-W*.43/1.27-18,openH-W*.43/1.27-18),W*.43,W*.43/1.27,12,1.5);
