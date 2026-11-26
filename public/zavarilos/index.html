@@ -156,7 +156,7 @@
   </article>
 </div>
 <script type="module">
-import { signs } from './assets/signs-v1.js';
+import { signs } from './assets/signs-v1.js?v=2';
 
 const moscowDate = new Intl.DateTimeFormat('ru-RU', {
   timeZone: 'Europe/Moscow',
@@ -273,9 +273,12 @@ function createSignDrawer() {
     const cardWidth=W*.88;
     result.style.left=(W-cardWidth)/2+'px';
     result.style.width=cardWidth+'px';
-    const cardTop=offset+Math.max(112,H*.24)*scale;
-    const latestCardTop=availableHeight-result.offsetHeight-12;
-    result.style.top=Math.max(5,Math.min(cardTop,latestCardTop))+'px';
+    // Center the receipt itself, allowing for titles and predictions of different lengths.
+    const cardHeight = result.offsetHeight;
+    const visualCenter = availableHeight * .55;
+    const minimumTop = 5;
+    const maximumTop = Math.max(minimumTop, availableHeight - cardHeight - 12);
+    result.style.top = clamp(visualCenter - cardHeight / 2, minimumTop, maximumTop) + 'px';
     root.querySelectorAll('.z5-coffee-drop').forEach((el,i)=>{el.style.left=c.x+c.w*.24+i*14+'px';el.style.top=Math.min(H-30,c.y+c.w*.69+i*13+Math.max(0,frameIndex-2)*9)+'px';el.style.transform='rotate('+(i*11-15)+'deg)';});
   }
   function setSpread(value){spread=value;layout();}
