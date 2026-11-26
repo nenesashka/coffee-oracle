@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ed272e">
+<meta name="description" content="Заварилось — бумажное кофейное предсказание от Лицея.">
+<meta name="robots" content="noindex">
+<title>Заварилось · Лицей</title>
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<style>
+  html { margin:0; overscroll-behavior:none; background:#ed272e; }
+  body { margin:0; min-height:100svh; display:grid; place-items:center; }
+  #zavarilos-stop-motion-v6 { width:100%; }
+  #zavarilos-stop-motion-v6 button { cursor:pointer; }
+</style>
+</head>
+<body>
+<style>
+@font-face{font-family:"Visuelt Pro";font-style:normal;font-weight:400;src:url("../fonts/visuelt-regular-3006.woff2");font-display:swap;}
+@font-face{font-family:"ZV Condensed";font-style:normal;font-weight:700;src:url("assets/oswald-condensed.woff2");font-display:swap;}
+  #zavarilos-stop-motion-v6 { padding: 0; }
+  #zavarilos-stop-motion-v6 .z5-screen { --z5-red:#ed272e; --z5-cream:#fff0d4; --z5-peach:#f6c5aa; --z5-ink:#191919; --z5-cup:url('assets/cup-frames.avif'); container-type:inline-size; position:relative; box-sizing:border-box; width:min(100%,430px); margin:auto; padding:20px 23px 23px; background:var(--z5-red); color:var(--z5-ink); font:400 16px/1.35 'Visuelt Pro',Arial,sans-serif; overflow:visible; isolation:isolate; }
+  #zavarilos-stop-motion-v6 .z5-screen {
+    display: flex;
+    flex-direction: column;
+    height: min(775px, 100svh);
+    padding-top: max(20px, env(safe-area-inset-top, 0px));
+    padding-bottom: max(23px, env(safe-area-inset-bottom, 0px));
+    overflow: clip;
+  }
+  #zavarilos-stop-motion-v6 .z5-screen > :not(.z5-stage) { flex-shrink: 0; }
+  #zavarilos-stop-motion-v6 .z5-screen *, #zavarilos-stop-motion-v6 .z5-screen *::before { box-sizing:border-box; }
+  #zavarilos-stop-motion-v6 h1, #zavarilos-stop-motion-v6 h2, #zavarilos-stop-motion-v6 p, #zavarilos-stop-motion-v6 figure { margin:0; }
+  #zavarilos-stop-motion-v6 [hidden] { display:none!important; }
+  #zavarilos-stop-motion-v6 .z5-header { display:flex; align-items:center; justify-content:space-between; gap:18px; height:39px; }
+  #zavarilos-stop-motion-v6 .z5-logo { display:block; width:104px; height:39px; object-fit:contain; filter:brightness(0); }
+  #zavarilos-stop-motion-v6 .z5-header-note { font-size:12px; line-height:1.2; text-align:right; }
+  #zavarilos-stop-motion-v6 .z5-title { margin-top:24px; color:var(--z5-cream); font:700 clamp(38px,15.1cqw,65px)/1.02 'ZV Condensed','Arial Narrow',sans-serif; letter-spacing:-.045em; text-align:center; white-space:nowrap; }
+  #zavarilos-stop-motion-v6 .z5-tagline { position:relative; z-index:25; width:max-content; max-width:98%; margin:11px auto 0; padding:5px 12px; border:1px solid var(--z5-ink); background:var(--z5-cream); font-size:14px; line-height:1.2; --z5-angle:-3deg; animation:z5-idle 2.3s steps(1,end) infinite; }
+  #zavarilos-stop-motion-v6 .z5-stage { position:relative; flex:1; min-height:0; margin-top:12px; overflow:visible; }
+  #zavarilos-stop-motion-v6 .z5-art { position:absolute; top:0; inset-inline:0; transform-origin:50% 0; }
+  #zavarilos-stop-motion-v6 .z5-piece, #zavarilos-stop-motion-v6 .z5-paper, #zavarilos-stop-motion-v6 .z5-cup, #zavarilos-stop-motion-v6 .z5-result { position:absolute; }
+  #zavarilos-stop-motion-v6 .z5-piece { pointer-events:none; }
+  #zavarilos-stop-motion-v6 .z5-wiggle { width:100%; height:100%; --z5-angle:0deg; animation:z5-idle var(--z5-duration,1.7s) steps(1,end) infinite; animation-delay:var(--z5-delay,0s); }
+  #zavarilos-stop-motion-v6 .z5-image { display:block; width:100%; height:100%; object-fit:contain; filter:drop-shadow(1px 2px 0 rgb(25 25 25 / .12)); }
+  #zavarilos-stop-motion-v6 .z5-paper { z-index:0; background:var(--z5-peach); border:1.5px solid var(--z5-ink); border-radius:44px 55px 42px 51px; --z5-angle:-7deg; animation:z5-idle 2.7s steps(1,end) infinite; }
+  #zavarilos-stop-motion-v6 .z5-photo { z-index:5; }
+  #zavarilos-stop-motion-v6 .z5-photo .z5-wiggle { padding:7px; background:var(--z5-cream); clip-path:polygon(1% 2%,20% 0,46% 1%,72% 0,99% 2%,100% 30%,99% 60%,100% 99%,71% 98%,41% 100%,0 98%,1% 72%); }
+  #zavarilos-stop-motion-v6 .z5-photo img { display:block; width:100%; height:100%; object-fit:cover; object-position:51% 20%; }
+  #zavarilos-stop-motion-v6 .z5-tape { z-index:16; }
+  #zavarilos-stop-motion-v6 .z5-spoon, #zavarilos-stop-motion-v6 .z5-seal { z-index:3; }
+  #zavarilos-stop-motion-v6 .z5-eye, #zavarilos-stop-motion-v6 .z5-arrow { z-index:7; }
+  #zavarilos-stop-motion-v6 .z5-croissant, #zavarilos-stop-motion-v6 .z5-danish { z-index:8; }
+  #zavarilos-stop-motion-v6 .z5-cup { z-index:6; }
+  #zavarilos-stop-motion-v6 .z5-cup .z5-wiggle { --z5-angle:-2deg; --z5-duration:1.9s; }
+  #zavarilos-stop-motion-v6 .z5-cup-frame { width:100%; height:100%; background-image:var(--z5-cup); background-size:400% 300%; background-position:0 0; background-repeat:no-repeat; filter:drop-shadow(2px 3px 0 rgb(25 25 25 / .12)); }
+  #zavarilos-stop-motion-v6 .z5-screen[data-view="revealing"] .z5-cup, #zavarilos-stop-motion-v6 .z5-screen[data-view="result"] .z5-cup { visibility:hidden; }
+  #zavarilos-stop-motion-v6 .z5-extra { z-index:4; visibility:hidden; }
+  #zavarilos-stop-motion-v6 .z5-extra[data-active="true"] { visibility:visible; }
+  #zavarilos-stop-motion-v6 .z5-extra[data-pop="0"] img { transform:translate(4px,5px) rotate(-9deg) scale(.84); }
+  #zavarilos-stop-motion-v6 .z5-extra[data-pop="1"] img { transform:translate(-2px,-1px) rotate(4deg) scale(1.04); }
+  #zavarilos-stop-motion-v6 .z5-extra[data-pop="2"] img { transform:none; }
+  #zavarilos-stop-motion-v6 .z5-result { z-index:30; }
+  #zavarilos-stop-motion-v6 .z5-result-paper { min-height:297px; padding:20px 22px 26px; background:var(--z5-cream); color:var(--z5-ink); clip-path:polygon(0 1%,100% 0,100% 97%,96% 100%,92% 97%,88% 100%,84% 97%,80% 100%,76% 97%,72% 100%,68% 97%,64% 100%,60% 97%,56% 100%,52% 97%,48% 100%,44% 97%,40% 100%,36% 97%,32% 100%,28% 97%,24% 100%,20% 97%,16% 100%,12% 97%,8% 100%,4% 97%,0 100%); animation:z5-receipt 2.3s steps(1,end) infinite; }
+  #zavarilos-stop-motion-v6 .z5-result[data-pop="0"] { transform:translate(8px,18px) rotate(7deg) scale(.94); }
+  #zavarilos-stop-motion-v6 .z5-result[data-pop="1"] { transform:translate(-5px,-5px) rotate(-5deg); }
+  #zavarilos-stop-motion-v6 .z5-result[data-pop="2"] { transform:translate(2px,2px) rotate(2deg); }
+  #zavarilos-stop-motion-v6 .z5-result-meta { display:flex; justify-content:space-between; gap:10px; padding-bottom:10px; border-bottom:1px dashed var(--z5-ink); font-size:11px; line-height:1.2; }
+  #zavarilos-stop-motion-v6 .z5-result h2 { margin-top:15px; font:700 clamp(31px,10.5cqw,44px)/1.04 'ZV Condensed','Arial Narrow',sans-serif; letter-spacing:-.02em; }
+  #zavarilos-stop-motion-v6 .z5-result p { margin-top:14px; font-size:15px; line-height:1.35; }
+  #zavarilos-stop-motion-v6 .z5-stamp { width:max-content; margin:17px 0 0 auto; padding:4px 9px; border:2px solid var(--z5-red); border-radius:50%; transform:rotate(-8deg); color:var(--z5-red); font:700 15px/1.1 'ZV Condensed',sans-serif; }
+  #zavarilos-stop-motion-v6 .z5-description { margin-top:15px; min-height:32px; font-size:17px; line-height:1.32; text-align:center; }
+  #zavarilos-stop-motion-v6 .z5-actions { display:flex; gap:10px; min-height:57px; margin-top:16px; }
+  #zavarilos-stop-motion-v6 .z5-screen[data-busy="true"] .z5-actions { visibility:hidden; }
+  #zavarilos-stop-motion-v6 .z5-button { width:100%; min-height:54px; padding:12px 15px; border:1.5px solid var(--z5-ink); border-radius:0; background:var(--z5-cream); color:var(--z5-ink); box-shadow:3px 3px 0 var(--z5-ink); font:400 17px/1.25 'Visuelt Pro',Arial,sans-serif; }
+  #zavarilos-stop-motion-v6 .z5-button:hover { background:var(--z5-peach); }
+  #zavarilos-stop-motion-v6 .z5-button:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--z5-ink); }
+  #zavarilos-stop-motion-v6 .z5-back { width:auto; padding-inline:13px; background:transparent; box-shadow:none; font-size:14px; }
+  #zavarilos-stop-motion-v6 button:focus-visible { outline:2px solid var(--z5-cream); outline-offset:5px; }
+  #zavarilos-stop-motion-v6 .z5-status { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  #zavarilos-stop-motion-v6 .z5-coffee-drop { position:absolute; z-index:9; width:10px; height:15px; border:2px solid var(--z5-cream); border-radius:70% 30% 60% 40%; background:#3d2113; opacity:0; pointer-events:none; }
+  #zavarilos-stop-motion-v6 .z5-screen[data-pouring="true"] .z5-coffee-drop { opacity:1; }
+  @keyframes z5-idle { 0%,100% { transform:translate(0,0) rotate(var(--z5-angle)); } 20% { transform:translate(1px,-2px) rotate(calc(var(--z5-angle) + 1.4deg)); } 45% { transform:translate(-1px,1px) rotate(calc(var(--z5-angle) - 1.2deg)); } 70% { transform:translate(2px,0) rotate(calc(var(--z5-angle) + .7deg)); } }
+  @keyframes z5-receipt { 0%,100% { transform:translate(0,0) rotate(-3deg); } 33% { transform:translate(1px,-1px) rotate(-2.7deg); } 66% { transform:translate(-1px,0) rotate(-3.2deg); } }
+  @media(max-width:370px) { #zavarilos-stop-motion-v6 .z5-screen { padding-inline:19px; } #zavarilos-stop-motion-v6 .z5-tagline { font-size:13px; } #zavarilos-stop-motion-v6 .z5-result-paper { padding-inline:17px; min-height:285px; } #zavarilos-stop-motion-v6 .z5-result p { font-size:14px; } #zavarilos-stop-motion-v6 .z5-description { font-size:16px; } #zavarilos-stop-motion-v6 .z5-button { font-size:15px; padding-inline:10px; } #zavarilos-stop-motion-v6 .z5-back { font-size:13px; } }
+  @media(max-height:730px) {
+    #zavarilos-stop-motion-v6 .z5-screen {
+      padding-top:max(10px, env(safe-area-inset-top, 0px));
+      padding-bottom:max(12px, env(safe-area-inset-bottom, 0px));
+    }
+    #zavarilos-stop-motion-v6 .z5-header { height:32px; }
+    #zavarilos-stop-motion-v6 .z5-logo { width:90px; height:32px; }
+    #zavarilos-stop-motion-v6 .z5-title { margin-top:12px; font-size:clamp(34px, 13.5cqw, 54px); }
+    #zavarilos-stop-motion-v6 .z5-tagline { margin-top:7px; padding-block:4px; }
+    #zavarilos-stop-motion-v6 .z5-stage { margin-top:8px; }
+    #zavarilos-stop-motion-v6 .z5-description { margin-top:8px; min-height:23px; }
+    #zavarilos-stop-motion-v6 .z5-actions { margin-top:9px; min-height:50px; }
+    #zavarilos-stop-motion-v6 .z5-button { min-height:50px; padding-block:9px; }
+    #zavarilos-stop-motion-v6 .z5-result-paper { min-height:0; padding-block:13px 19px; }
+    #zavarilos-stop-motion-v6 .z5-result-meta { padding-bottom:7px; }
+    #zavarilos-stop-motion-v6 .z5-result h2 { margin-top:10px; font-size:clamp(27px, 9.5cqw, 39px); }
+    #zavarilos-stop-motion-v6 .z5-result p { margin-top:8px; font-size:14px; }
+    #zavarilos-stop-motion-v6 .z5-stamp { margin-top:10px; font-size:13px; }
+  }
+  @media(max-height:475px) {
+    #zavarilos-stop-motion-v6 .z5-header { height:26px; }
+    #zavarilos-stop-motion-v6 .z5-logo { height:26px; }
+    #zavarilos-stop-motion-v6 .z5-title { margin-top:5px; font-size:31px; }
+    #zavarilos-stop-motion-v6 .z5-tagline { margin-top:4px; }
+    #zavarilos-stop-motion-v6 .z5-stage { margin-top:5px; }
+    #zavarilos-stop-motion-v6 .z5-description { margin-top:4px; font-size:15px; min-height:20px; }
+    #zavarilos-stop-motion-v6 .z5-actions { margin-top:6px; min-height:47px; }
+    #zavarilos-stop-motion-v6 .z5-button { min-height:47px; }
+    #zavarilos-stop-motion-v6 .z5-result-paper { padding:7px 14px 12px; }
+    #zavarilos-stop-motion-v6 .z5-result-meta { padding-bottom:4px; }
+    #zavarilos-stop-motion-v6 .z5-result h2 { margin-top:4px; font-size:21px; }
+    #zavarilos-stop-motion-v6 .z5-result h2 br { display:none; }
+    #zavarilos-stop-motion-v6 .z5-result p { margin-top:4px; font-size:13px; line-height:1.22; }
+    #zavarilos-stop-motion-v6 .z5-stamp { margin-top:5px; font-size:11px; padding-block:2px; }
+  }
+  @media(prefers-reduced-motion:reduce) { #zavarilos-stop-motion-v6 .z5-screen * { animation:none!important; } }
+</style>
+<div id="zavarilos-stop-motion-v6">
+  <article class="z5-screen" aria-label="Заварилось — фотографический бумажный коллаж" data-view="hero" data-busy="false" data-pouring="false">
+    <header class="z5-header"><img class="z5-logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjg2IiBoZWlnaHQ9IjI1MyIgdmlld0JveD0iMCAwIDY4NiAyNTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik02NzguMiAxOS45QzY3Ny42IDIwLjMgNjIwLjQgNTcuMyA1OTEuMiA3MC40QzU4OS42IDcxLjEgNTg4LjIgNzEuNyA1ODcgNzIuMkw2MDYuNCAzNi44TDU5Ni40IDMxLjRDNTk2IDMxLjggNTU1LjcgNjkgNTQzIDc5LjJMNTYwLjQgNDcuNEw1NTAuNCA0MkM1NTAgNDIuNCA1MTEuOSA3OS41IDQ4MC4zIDk2QzQ3Ni4yIDk4LjIgNDY5LjMgMTAxLjggNDY1LjcgMTAwLjdDNDcxLjggOTYuOCA0ODMuNiA4OS4zIDQ5My4xIDgxLjdDNTAwLjYgNzUuOCA1MDYuNyA2Ny45IDUwMC4zIDYwQzQ5Ni41IDU1LjMgNDg3LjYgNTMuMiA0NzcuMyA1OS44TDQ3Ny4yIDU5LjlDNDcxLjggNjMuNiA0NjMuNyA3MC44IDQ1Ni4xIDg2LjVDNDU0LjYgODkuNyA0NTMuNCA5Mi42IDQ1Mi45IDk1LjJDNDQ3LjMgOTguOCA0MzQuMSAxMDggNDI1LjkgMTEzLjZMNDM0LjkgMTAyLjZMNDI1LjYgOTcuMkw0MDguMiAxMTEuM0M0MDcuOCAxMTEuNiA0MDcuNCAxMTEuOSA0MDcgMTEyLjFMNDI1LjggNzkuM0w0MTUuOSA3My43QzQxNS41IDc0LjEgMzc0LjYgMTEwLjggMzYxLjIgMTIxLjZMMzc5LjMgOTAuM0wzNjkuNCA4NC43QzM2OSA4NSAzMzEuOCAxMTYuMSAzMDEuMiAxMzYuMUMzMDEgMTM2LjIgMzAwLjkgMTM2LjMgMzAwLjcgMTM2LjRMMzE4LjggMTA0LjJMMzA4LjggOTguN0MzMDguNCA5OS4xIDI2OC40IDEzNS44IDI1NS4zIDE0Ni41TDI3My4zIDExNC43TDI2My40IDEwOS4yQzI2MyAxMDkuNSAyMjQuNyAxNDcuNiAxOTEuNiAxNjcuNUMxODkgMTY4LjkgMTg2LjkgMTcwLjEgMTg1LjEgMTcxQzE5OC40IDE0Ny41IDIzOC40IDc2LjYgMjM4LjggNzUuOEMyMzUuODA3IDczLjI5NDQgMjMyLjM0OCA3MC45NDc3IDIyOS42IDY4LjJDMTQ0LjEgMTUxLjcgNDAuNiAyMTguNSAwIDI0My4zTDUuNyAyNTIuN0M0Mi44IDIzMCAxMzIuMiAxNzIuNCAyMTMgOTlDMTk2LjEgMTI4LjggMTcyLjcgMTcwLjIgMTcwLjggMTczLjNDMTY4LjEgMTc3LjkgMTY4LjEgMTgxLjcgMTcwLjcgMTg0LjNDMTc0LjkgMTg4LjYgMTgyLjkgMTg2LjUgMTk3LjIgMTc3LjZDMjA5LjYgMTcwLjUgMjM1LjcgMTUwLjEgMjQ4LjEgMTM2LjdMMjQwLjIgMTUxQzIzNi41IDE1Ny41IDIzOS40IDE2MSAyNDAuOCAxNjIuMkMyNDIuMSAxNjMuMyAyNDMuNyAxNjMuOSAyNDUuNSAxNjMuOUMyNDkuNSAxNjMuOSAyNTQuOCAxNjEuMiAyNjIgMTU1LjVDMjY3LjggMTUwLjkgMjgzIDEzNy4yIDI5NC43IDEyNi42TDI4Ni4zIDE0MEMyODIuOSAxNDUuOSAyODUuMSAxNDkuMyAyODYuNiAxNTAuN0MyODggMTUyIDI4OS42IDE1Mi42IDI5MS41IDE1Mi42QzI5NS43IDE1Mi42IDMwMS4yIDE0OS42IDMwOC40IDE0NC45QzMyNC40IDEzNC40IDM0MS43IDEyMS4yIDM1NC44IDExMC44TDM0Ni4yIDEyNkMzNDIuNSAxMzIuNSAzNDUuNCAxMzYgMzQ2LjggMTM3LjJDMzQ4LjEgMTM4LjMgMzQ5LjcgMTM4LjkgMzUxLjUgMTM4LjlDMzU1LjUgMTM4LjkgMzYwLjggMTM2LjIgMzY4IDEzMC41QzM3My45IDEyNS45IDM4OSAxMTIuMyA0MDEgMTAxLjdMMzkyLjkgMTE0LjZDMzg5LjIgMTIxLjEgMzkyLjUgMTI0LjcgMzkzLjYgMTI1LjdDMzk3LjIgMTI4LjkgNDAzLjEgMTI3LjQgNDExLjMgMTIyLjNMNDEwIDEyNC44QzQwNC45IDEyOC4zIDQwMi4xIDEyOS45IDQwMS4xIDEzMC42QzM5NS4yIDEzNS4yIDM5NC4yIDE0MC42IDM5NS4yIDE0NC4yQzM5Ni4xIDE0Ny40IDM5OC42IDE0OS42IDQwMS43IDE1MEM0MDIgMTUwIDQwMi40IDE1MC4xIDQwMi43IDE1MC4xQzQwNS4yIDE1MC4xIDQwOS4yIDE0OC45IDQxMi43IDE0Mi44TDQxOC43IDEzMi4xQzQyMS45IDEyOS45IDQyNS41IDEyNy41IDQyOSAxMjVDNDM4LjIgMTE4LjcgNDQ4LjEgMTExLjkgNDU1LjMgMTA2LjlDNDU2LjcgMTA4LjYgNDU4LjkgMTEwLjMgNDYyLjIgMTExLjRDNDYzLjkgMTExLjkgNDY1LjYgMTEyLjIgNDY3LjMgMTEyLjJDNDczLjkgMTEyLjIgNDgwLjUgMTA4LjcgNDg1LjYgMTA2LjFDNTAyLjUgOTcuMyA1MjMuOSA3OS40IDUzNy43IDY3LjdMNTI4LjEgODMuNUM1MjQuNSA5MCA1MjcuNCA5My40IDUyOC44IDk0LjZDNTMwLjEgOTUuNyA1MzEuNyA5Ni4zIDUzMy41IDk2LjNDNTM3LjUgOTYuMyA1NDIuOCA5My42IDU1MCA4Ny45QzU1NS45IDgzLjMgNTY5LjcgNzAgNTgxLjMgNTkuNkw1NzQuNSA3Mi4zQzU3MS41IDc3LjcgNTcyLjggODAuOSA1NzQuNSA4Mi43QzU3NiA4NC4zIDU3Ny44IDg1LjEgNTgwLjEgODUuMUM1ODMuOSA4NS4xIDU4OS4yIDgzLjEgNTk2LjkgNzkuNkM2MjYuOSA2Ni4xIDY4My4xIDI5LjggNjg1LjUgMjguM0w2NzguMiAxOS45Wk00ODQuNSA2OUM0ODcgNjcuMyA0OTAuMyA2Ni4zIDQ5MS4xIDY3LjRDNDkxLjkgNjguNSA0ODkuNSA3MC44IDQ4Ny4yIDcyLjVDNDg1LjQgNzMuOSA0NjcuNiA4Ni43IDQ2Ny42IDg2LjdDNDczLjQgNzcuOCA0ODEuOCA3MC45IDQ4NC41IDY5WiIgZmlsbD0iI0VEMjcyRSIvPgo8cGF0aCBkPSJNNjAzLjMgNS42TDU5My40IDBDNTc3LjYgMTQuOCA1NjguMSAzMS40IDU2Ny42IDMyLjJMNTc3LjIgMzcuNUM1NzcuMyAzNy4zIDU4Ny4zIDE5LjggNjAzLjMgNS42WiIgZmlsbD0iI0VEMjcyRSIvPgo8L3N2Zz4=" alt="Лицей"><span class="z5-header-note">предсказания<br>к кофе</span></header>
+    <h1 class="z5-title">ЗАВАРИЛОСЬ</h1>
+    <div class="z5-tagline">кажется, это к хорошему.</div>
+    <div class="z5-stage" aria-label="Живой коллаж с наполненной кружкой">
+      <div class="z5-art">
+      <div class="z5-paper" aria-hidden="true"></div>
+      <figure class="z5-piece z5-photo" data-piece="photo"><div class="z5-wiggle"><img src="assets/photo.avif" alt="Гостья Лицея с кофе"></div></figure>
+      <div class="z5-piece z5-tape" data-piece="tape" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/tape.avif" alt=""></div></div>
+      <div class="z5-piece z5-spoon" data-piece="spoon" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/spoon.avif" alt=""></div></div>
+      <div class="z5-piece z5-eye" data-piece="eye" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/eye.avif" alt=""></div></div>
+      <div class="z5-piece z5-croissant" data-piece="croissant" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/croissant.avif" alt=""></div></div>
+      <div class="z5-piece z5-seal" data-piece="seal" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/seal.avif" alt=""></div></div>
+      <div class="z5-piece z5-arrow" data-piece="arrow" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/arrow.avif" alt=""></div></div>
+      <div class="z5-piece z5-danish" data-piece="danish"><div class="z5-wiggle"><img class="z5-image" src="assets/danish.avif" alt="Бумажная вырезка слойки с ягодами"></div></div>
+      <div class="z5-piece z5-extra" data-piece="beans" data-extra="beans" data-active="false" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/beans.avif" alt=""></div></div>
+      <div class="z5-piece z5-extra" data-piece="checks" data-extra="checks" data-active="false" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/checks.avif" alt=""></div></div>
+      <div class="z5-piece z5-extra" data-piece="coffeeStamp" data-extra="coffeeStamp" data-active="false" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/coffeeStamp.avif" alt=""></div></div>
+      <div class="z5-cup" role="img" aria-label="Фотографическая бумажная кружка, наполненная кофе"><div class="z5-wiggle"><div class="z5-cup-frame" data-cup-frame="0"></div></div></div>
+      <span class="z5-coffee-drop" aria-hidden="true"></span><span class="z5-coffee-drop" aria-hidden="true"></span><span class="z5-coffee-drop" aria-hidden="true"></span>
+      </div>
+      <section class="z5-result" aria-label="Предсказание на сегодня" hidden><div class="z5-result-paper">
+        <div class="z5-result-meta"><span>ЛИЦЕЙ / ТВОЙ ЗНАК</span><span class="z5-date"></span></div>
+        <h2>К ХОРОШЕЙ<br> ВСТРЕЧЕ</h2>
+        <p>Вспомни человека, которому давно хотел написать. Кажется, сегодня подходящий день.</p>
+        <div class="z5-stamp">КОФЕ — ХОРОШИЙ ПОВОД</div>
+      </div></section>
+    </div>
+    <p class="z5-description">Какой сегодня будет день?</p>
+    <div class="z5-actions"><button class="z5-button z5-main" type="button">Перевернуть кружку</button><button class="z5-button z5-back" type="button" hidden>Назад</button></div>
+    <p class="z5-status" role="status" aria-live="polite"></p>
+  </article>
+</div>
+<script>
+(() => {
+  const root=document.getElementById('zavarilos-stop-motion-v6');
+  const screen=root.querySelector('.z5-screen'), stage=root.querySelector('.z5-stage');
+  const art=root.querySelector('.z5-art');
+  const cup=root.querySelector('.z5-cup'), cupFrame=root.querySelector('.z5-cup-frame');
+  const result=root.querySelector('.z5-result'), main=root.querySelector('.z5-main'), back=root.querySelector('.z5-back');
+  const description=root.querySelector('.z5-description'), status=root.querySelector('.z5-status');
+  const extras=Array.from(root.querySelectorAll('.z5-extra'));
+  const pieces=Object.fromEntries(Array.from(root.querySelectorAll('[data-piece]')).map(el=>[el.dataset.piece,el]));
+  const reduced=window.matchMedia('(prefers-reduced-motion:reduce)');
+  let view='hero';
+  let spread=view==='result'?1:0, cycle=0, frameIndex=0, timers=[];
+  const mix=(a,b)=>a+(b-a)*spread, clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  root.querySelector('.z5-date').textContent=new Intl.DateTimeFormat('ru-RU',{timeZone:'Europe/Moscow',day:'2-digit',month:'2-digit'}).format(new Date());
+  function later(fn,ms){timers.push(setTimeout(fn,ms));}
+  function clearTimers(){timers.forEach(clearTimeout);timers=[];}
+  function layout(){
+    const W=stage.clientWidth, pad=parseFloat(getComputedStyle(screen).paddingLeft), heroH=Math.max(370,W*1.14), openH=heroH+Math.max(128,W*.35+50), H=mix(heroH,openH);
+    // Fit the animated artwork inside an independent, fixed-height slot.
+    const availableHeight=stage.clientHeight;
+    const scale=Math.min(1,availableHeight/H);
+    const offset=(availableHeight-H*scale)/2;
+    art.style.height=H+'px';
+    art.style.transform='translateY('+offset+'px) scale('+scale+')';
+    function place(el,x,y,w,h,angle=0,duration=1.7){
+      const radians=(Math.abs(angle)+2)*Math.PI/180, ex=(w*Math.cos(radians)+h*Math.sin(radians)-w)/2+4, ey=(h*Math.cos(radians)+w*Math.sin(radians)-h)/2+4;
+      x=clamp(x,8-pad+Math.max(0,ex),W+pad-8-w-Math.max(0,ex));y=clamp(y,8+Math.max(0,ey),H-h-8-Math.max(0,ey));
+      Object.assign(el.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});
+      const wiggle=el.querySelector('.z5-wiggle');if(wiggle){wiggle.style.setProperty('--z5-angle',angle+'deg');wiggle.style.setProperty('--z5-duration',duration+'s');}
+      return{x,y,w,h};
+    }
+    const ph=place(pieces.photo,mix(W*.01,-W*.02),mix(heroH*.035,3),W*.35,W*.35/.75,mix(-9,-13),1.9);
+    place(pieces.tape,ph.x+ph.w*.16,ph.y-14,ph.w*.62,ph.w*.62/2.2,-18,1.9);
+    place(pieces.spoon,mix(W*.55,W*.63),mix(heroH*.035,0),W*.40,W*.40/.93,-8,1.45);
+    place(pieces.eye,mix(W*.69,W*.60),mix(heroH*.46,openH*.14),W*.34,W*.34/2.2,12,1.65);
+    place(pieces.croissant,mix(W*.60,W*.65),mix(heroH-W*.43/1.27-18,openH-W*.43/1.27-18),W*.43,W*.43/1.27,12,1.5);
+    place(pieces.danish,mix(W*.01,0),mix(heroH-W*.42/1.09-16,openH-W*.42/1.09-16),W*.42,W*.42/1.09,-12,1.65);
+    place(pieces.arrow,mix(0,-W*.02),mix(heroH*.54,openH*.52),W*.26,W*.26/1.35,-19,1.3);
+    place(pieces.seal,mix(W*.43,W*.44),mix(heroH*.02,openH*.035),W*.28,W*.28,10,2.1);
+    place(pieces.beans,W*.03,mix(heroH*.46,openH*.49),W*.13,W*.13/1.1,-14,2.1);
+    place(pieces.checks,W*.85,mix(heroH*.34,openH*.32),W*.16,W*.16/2.1,9,2.6);
+    place(pieces.coffeeStamp,W*.43,H-W*.17-8,W*.17,W*.17,7,2.4);
+    const c=place(cup,W*.18,mix(heroH*.18,openH*.26),W*.80,W*.80,-2,1.9);
+    const paper=root.querySelector('.z5-paper');Object.assign(paper.style,{left:W*.10+'px',top:(H-heroH*.80)/2+'px',width:W*.80+'px',height:heroH*.80+'px'});
+    const cardWidth=W*.88;
+    result.style.left=(W-cardWidth)/2+'px';
+    result.style.width=cardWidth+'px';
+    const cardTop=offset+Math.max(112,H*.24)*scale;
+    const latestCardTop=availableHeight-result.offsetHeight-12;
+    result.style.top=Math.max(5,Math.min(cardTop,latestCardTop))+'px';
+    root.querySelectorAll('.z5-coffee-drop').forEach((el,i)=>{el.style.left=c.x+c.w*.24+i*14+'px';el.style.top=Math.min(H-30,c.y+c.w*.69+i*13+Math.max(0,frameIndex-2)*9)+'px';el.style.transform='rotate('+(i*11-15)+'deg)';});
+  }
+  function setSpread(value){spread=value;layout();}
+  function frame(index){frameIndex=index;cupFrame.dataset.cupFrame=String(index);cupFrame.style.backgroundPosition=(index%4*100/3)+'% '+Math.floor(index/4)*50+'%';screen.dataset.pouring=String(view==='animating'&&index>=2&&index<=4);layout();}
+  function hideExtras(){extras.forEach(el=>{el.dataset.active='false';delete el.dataset.pop;});}
+  function selectExtras(){hideExtras();const pairs=[['beans','checks'],['coffeeStamp','beans'],['checks','coffeeStamp']];return pairs[cycle++%pairs.length].map(name=>pieces[name]);}
+  function showExtra(el,delay){later(()=>{el.dataset.active='true';el.dataset.pop='0';},delay);later(()=>{el.dataset.pop='1';},delay+85);later(()=>{el.dataset.pop='2';},delay+175);}
+  function renderStable(){screen.dataset.view=view;screen.dataset.busy='false';main.disabled=false;back.disabled=false;main.setAttribute('aria-busy','false');result.hidden=view!=='result';back.hidden=view!=='result';main.textContent=view==='result'?'Перевернуть ещё раз':'Перевернуть кружку';description.textContent=view==='result'?'Пусть так и будет.':'Какой сегодня будет день?';delete result.dataset.pop;setSpread(view==='result'?1:0);frame(view==='result'?11:0);if(view==='hero')hideExtras();}
+  function finish(){view='result';renderStable();status.textContent='Твой знак: к хорошей встрече. Вспомни человека, которому давно хотел написать. Кажется, сегодня подходящий день.';}
+  function turn(){
+    clearTimers();if(reduced.matches){selectExtras().forEach(el=>{el.dataset.active='true';el.dataset.pop='2';});finish();return;}
+    view='animating';screen.dataset.view='clearing';screen.dataset.busy='true';main.disabled=true;back.disabled=true;main.setAttribute('aria-busy','true');result.hidden=true;hideExtras();frame(0);setSpread(0);description.textContent='Сейчас всё выясним.';status.textContent='Кружка переворачивается.';
+    [.18,.43,.72,1].forEach((v,i)=>later(()=>setSpread(v),i*150));
+    selectExtras().forEach((el,i)=>showExtra(el,180+i*160));
+    later(()=>{screen.dataset.view='turning';},620);
+    for(let i=0;i<12;i++)later(()=>frame(i),620+i*115);
+    later(()=>{screen.dataset.view='revealing';screen.dataset.pouring='false';result.hidden=false;layout();result.dataset.pop='0';},2100);
+    later(()=>{result.dataset.pop='1';},2250);later(()=>{result.dataset.pop='2';},2400);later(finish,2550);
+  }
+  function reset(callback){clearTimers();view='returning';screen.dataset.view='returning';screen.dataset.busy='true';result.hidden=true;main.disabled=true;back.disabled=true;frame(0);hideExtras();if(reduced.matches){view='hero';renderStable();callback?.();return;}[.72,.43,.18,0].forEach((v,i)=>later(()=>setSpread(v),i*140));later(()=>{view='hero';renderStable();status.textContent='';callback?.();},580);}
+  main.addEventListener('click',()=>{if(view==='result')reset(turn);else turn();});
+  back.addEventListener('click',()=>reset());
+  renderStable();if(view==='result'){pieces.beans.dataset.active='true';pieces.beans.dataset.pop='2';pieces.checks.dataset.active='true';pieces.checks.dataset.pop='2';}
+  const observer=new ResizeObserver(layout);
+  observer.observe(stage);
+})();
+</script>
+
+</body>
+</html>
