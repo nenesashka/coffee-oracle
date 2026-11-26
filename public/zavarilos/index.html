@@ -67,9 +67,9 @@
   #zavarilos-stop-motion-v6 .z5-result[data-pop="1"] { transform:translate(-5px,-5px) rotate(-5deg); }
   #zavarilos-stop-motion-v6 .z5-result[data-pop="2"] { transform:translate(2px,2px) rotate(2deg); }
   #zavarilos-stop-motion-v6 .z5-result-meta { display:flex; justify-content:space-between; gap:10px; padding-bottom:10px; border-bottom:1px dashed var(--z5-ink); font-size:11px; line-height:1.2; }
-  #zavarilos-stop-motion-v6 .z5-result h2 { margin-top:15px; font:700 clamp(31px,10.5cqw,44px)/1.04 'ZV Condensed','Arial Narrow',sans-serif; letter-spacing:-.02em; }
+  #zavarilos-stop-motion-v6 .z5-result h2 { margin-top:15px; font:700 clamp(31px,10.5cqw,44px)/1.04 'ZV Condensed','Arial Narrow',sans-serif; letter-spacing:-.02em; text-wrap:balance; }
   #zavarilos-stop-motion-v6 .z5-result p { margin-top:14px; font-size:15px; line-height:1.35; }
-  #zavarilos-stop-motion-v6 .z5-stamp { width:max-content; margin:17px 0 0 auto; padding:4px 9px; border:2px solid var(--z5-red); border-radius:50%; transform:rotate(-8deg); color:var(--z5-red); font:700 15px/1.1 'ZV Condensed',sans-serif; }
+  #zavarilos-stop-motion-v6 .z5-stamp { width:max-content; max-width:100%; margin:17px 0 0 auto; padding:4px 9px; border:2px solid var(--z5-red); border-radius:50%; transform:rotate(-8deg); color:var(--z5-red); font:700 15px/1.1 'ZV Condensed',sans-serif; text-align:center; }
   #zavarilos-stop-motion-v6 .z5-description { margin-top:15px; min-height:32px; font-size:17px; line-height:1.32; text-align:center; }
   #zavarilos-stop-motion-v6 .z5-actions { display:flex; gap:10px; min-height:57px; margin-top:16px; }
   #zavarilos-stop-motion-v6 .z5-screen[data-busy="true"] .z5-actions { visibility:hidden; }
@@ -115,7 +115,6 @@
     #zavarilos-stop-motion-v6 .z5-result-paper { padding:7px 14px 12px; }
     #zavarilos-stop-motion-v6 .z5-result-meta { padding-bottom:4px; }
     #zavarilos-stop-motion-v6 .z5-result h2 { margin-top:4px; font-size:21px; }
-    #zavarilos-stop-motion-v6 .z5-result h2 br { display:none; }
     #zavarilos-stop-motion-v6 .z5-result p { margin-top:4px; font-size:13px; line-height:1.22; }
     #zavarilos-stop-motion-v6 .z5-stamp { margin-top:5px; font-size:11px; padding-block:2px; }
   }
@@ -145,9 +144,9 @@
       </div>
       <section class="z5-result" aria-label="Предсказание на сегодня" hidden><div class="z5-result-paper">
         <div class="z5-result-meta"><span>ЛИЦЕЙ / ТВОЙ ЗНАК</span><span class="z5-date"></span></div>
-        <h2>К ХОРОШЕЙ<br> ВСТРЕЧЕ</h2>
-        <p>Вспомни человека, которому давно хотел написать. Кажется, сегодня подходящий день.</p>
-        <div class="z5-stamp">КОФЕ — ХОРОШИЙ ПОВОД</div>
+        <h2 class="z5-sign-title"></h2>
+        <p class="z5-sign-text"></p>
+        <div class="z5-stamp"></div>
       </div></section>
     </div>
     <p class="z5-description">Какой сегодня будет день?</p>
@@ -155,7 +154,64 @@
     <p class="z5-status" role="status" aria-live="polite"></p>
   </article>
 </div>
-<script>
+<script type="module">
+import { signs } from './assets/signs-v1.js';
+
+const moscowDate = new Intl.DateTimeFormat('ru-RU', {
+  timeZone: 'Europe/Moscow',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+const dayInMilliseconds = 86_400_000;
+const seedKey = 'zavarilos-sign-seed';
+
+function getPersonalSeed() {
+  try {
+    const saved = localStorage.getItem(seedKey);
+    if (saved !== null && /^\d{1,10}$/.test(saved)) return Number(saved);
+  } catch {}
+
+  const seed = crypto.getRandomValues(new Uint32Array(1))[0];
+  try { localStorage.setItem(seedKey, String(seed)); } catch {}
+  return seed;
+}
+
+function shuffleSigns() {
+  const deck = signs.slice();
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
+}
+
+function createSignDrawer() {
+  const seed = getPersonalSeed();
+  let lastDay;
+  let previousSign;
+  let deck = [];
+
+  return () => {
+    const date = Object.fromEntries(moscowDate.formatToParts(new Date()).map(({ type, value }) => [type, value]));
+    const day = Date.UTC(+date.year, +date.month - 1, +date.day) / dayInMilliseconds;
+
+    if (day !== lastDay) {
+      lastDay = day;
+      const dailySign = signs[(seed + day) % signs.length];
+      deck = shuffleSigns().filter(sign => sign !== dailySign);
+      deck.push(dailySign);
+    } else if (deck.length === 0) {
+      deck = shuffleSigns();
+      const last = deck.length - 1;
+      if (last > 0 && deck[last] === previousSign) [deck[last], deck[0]] = [deck[0], deck[last]];
+    }
+
+    previousSign = deck.pop();
+    return { sign: previousSign, date: date.day + '.' + date.month };
+  };
+}
+
 (() => {
   const root=document.getElementById('zavarilos-stop-motion-v6');
   const screen=root.querySelector('.z5-screen'), stage=root.querySelector('.z5-stage');
@@ -163,13 +219,17 @@
   const cup=root.querySelector('.z5-cup'), cupFrame=root.querySelector('.z5-cup-frame');
   const result=root.querySelector('.z5-result'), main=root.querySelector('.z5-main'), back=root.querySelector('.z5-back');
   const description=root.querySelector('.z5-description'), status=root.querySelector('.z5-status');
+  const signTitle = result.querySelector('.z5-sign-title');
+  const signText = result.querySelector('.z5-sign-text');
+  const signStamp = result.querySelector('.z5-stamp');
+  const signDate = result.querySelector('.z5-date');
+  const drawSign = createSignDrawer();
   const extras=Array.from(root.querySelectorAll('.z5-extra'));
   const pieces=Object.fromEntries(Array.from(root.querySelectorAll('[data-piece]')).map(el=>[el.dataset.piece,el]));
   const reduced=window.matchMedia('(prefers-reduced-motion:reduce)');
   let view='hero';
   let spread=view==='result'?1:0, cycle=0, frameIndex=0, timers=[];
   const mix=(a,b)=>a+(b-a)*spread, clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  root.querySelector('.z5-date').textContent=new Intl.DateTimeFormat('ru-RU',{timeZone:'Europe/Moscow',day:'2-digit',month:'2-digit'}).format(new Date());
   function later(fn,ms){timers.push(setTimeout(fn,ms));}
   function clearTimers(){timers.forEach(clearTimeout);timers=[];}
   function layout(){
@@ -213,17 +273,33 @@
   function hideExtras(){extras.forEach(el=>{el.dataset.active='false';delete el.dataset.pop;});}
   function selectExtras(){hideExtras();const pairs=[['beans','checks'],['coffeeStamp','beans'],['checks','coffeeStamp']];return pairs[cycle++%pairs.length].map(name=>pieces[name]);}
   function showExtra(el,delay){later(()=>{el.dataset.active='true';el.dataset.pop='0';},delay);later(()=>{el.dataset.pop='1';},delay+85);later(()=>{el.dataset.pop='2';},delay+175);}
-  function renderStable(){screen.dataset.view=view;screen.dataset.busy='false';main.disabled=false;back.disabled=false;main.setAttribute('aria-busy','false');result.hidden=view!=='result';back.hidden=view!=='result';main.textContent=view==='result'?'Перевернуть ещё раз':'Перевернуть кружку';description.textContent=view==='result'?'Пусть так и будет.':'Какой сегодня будет день?';delete result.dataset.pop;setSpread(view==='result'?1:0);frame(view==='result'?11:0);if(view==='hero')hideExtras();}
-  function finish(){view='result';renderStable();status.textContent='Твой знак: к хорошей встрече. Вспомни человека, которому давно хотел написать. Кажется, сегодня подходящий день.';}
+  function renderStable(){screen.dataset.view=view;screen.dataset.busy='false';main.disabled=false;back.disabled=false;main.setAttribute('aria-busy','false');result.hidden=view!=='result';back.hidden=view!=='result';main.textContent=view==='result'?'Другой знак':'Перевернуть кружку';description.textContent=view==='result'?'Пусть так и будет.':'Какой сегодня будет день?';delete result.dataset.pop;setSpread(view==='result'?1:0);frame(view==='result'?11:0);if(view==='hero')hideExtras();}
+  function finish(announcement) {
+    view = 'result';
+    renderStable();
+    status.textContent = announcement;
+  }
   function turn(){
-    clearTimers();if(reduced.matches){selectExtras().forEach(el=>{el.dataset.active='true';el.dataset.pop='2';});finish();return;}
+    clearTimers();
+    const { sign: [title, text, stamp], date } = drawSign();
+    signTitle.textContent = title.toLocaleUpperCase('ru-RU');
+    signText.textContent = text;
+    signStamp.textContent = stamp.toLocaleUpperCase('ru-RU');
+    signDate.textContent = date;
+    const announcement = title + '. ' + text;
+
+    if (reduced.matches) {
+      selectExtras().forEach(el => { el.dataset.active='true'; el.dataset.pop='2'; });
+      finish(announcement);
+      return;
+    }
     view='animating';screen.dataset.view='clearing';screen.dataset.busy='true';main.disabled=true;back.disabled=true;main.setAttribute('aria-busy','true');result.hidden=true;hideExtras();frame(0);setSpread(0);description.textContent='Сейчас всё выясним.';status.textContent='Кружка переворачивается.';
     [.18,.43,.72,1].forEach((v,i)=>later(()=>setSpread(v),i*150));
     selectExtras().forEach((el,i)=>showExtra(el,180+i*160));
     later(()=>{screen.dataset.view='turning';},620);
     for(let i=0;i<12;i++)later(()=>frame(i),620+i*115);
     later(()=>{screen.dataset.view='revealing';screen.dataset.pouring='false';result.hidden=false;layout();result.dataset.pop='0';},2100);
-    later(()=>{result.dataset.pop='1';},2250);later(()=>{result.dataset.pop='2';},2400);later(finish,2550);
+    later(()=>{result.dataset.pop='1';},2250);later(()=>{result.dataset.pop='2';},2400);later(()=>finish(announcement),2550);
   }
   function reset(callback){clearTimers();view='returning';screen.dataset.view='returning';screen.dataset.busy='true';result.hidden=true;main.disabled=true;back.disabled=true;frame(0);hideExtras();if(reduced.matches){view='hero';renderStable();callback?.();return;}[.72,.43,.18,0].forEach((v,i)=>later(()=>setSpread(v),i*140));later(()=>{view='hero';renderStable();status.textContent='';callback?.();},580);}
   main.addEventListener('click',()=>{if(view==='result')reset(turn);else turn();});
