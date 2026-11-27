@@ -345,18 +345,18 @@ function shareIntro(sign) {
   return 'У меня заварилось предсказание ' + clause + ' :)';
 }
 
-export function shareTitle(sign) {
-  return shareIntro(sign) + ' ' + shareInvitation;
+export function shareTitle() {
+  return 'У меня заварилось. А у тебя?';
 }
 
 export function shareUrl(sign) {
   const index = signs.findIndex(([title]) => title === sign.title);
   if (index < 0) return CARD_URL;
-  return CARD_URL + 's/v1-' + String(index + 1).padStart(2,'0') + '/';
+  return CARD_URL + 's/v1-' + String(index + 1).padStart(2,'0') + '/?v=2';
 }
 
 export function shareCaption(sign) {
-  return shareTitle(sign) + '\n' + shareUrl(sign);
+  return shareIntro(sign) + ' ' + shareInvitation + '\n' + shareUrl(sign);
 }
 
 export function shareCaptionHtml(sign) {
