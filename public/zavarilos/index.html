@@ -150,10 +150,10 @@
   #zavarilos-stop-motion-v6 .z5-result p { margin-top:14px; font-size:15px; line-height:1.35; }
   #zavarilos-stop-motion-v6 .z5-stamp { width:max-content; max-width:100%; margin:17px 0 0 auto; padding:4px 9px; border:2px solid var(--z5-red); border-radius:50%; transform:rotate(-8deg); color:var(--z5-red); font:700 15px/1.1 'ZV Condensed',sans-serif; text-align:center; }
   #zavarilos-stop-motion-v6 .z5-description { margin-top:15px; min-height:32px; font-size:17px; line-height:1.32; text-align:center; }
-  #zavarilos-stop-motion-v6 .z5-actions { display:flex; flex-direction:column; align-items:center; gap:8px; min-height:57px; margin-top:16px; }
+  #zavarilos-stop-motion-v6 .z5-actions { --z5-action-size:54px; display:flex; align-items:stretch; gap:10px; min-height:57px; margin-top:16px; }
   #zavarilos-stop-motion-v6 .z5-screen[data-busy="true"] .z5-actions { visibility:hidden; }
   #zavarilos-stop-motion-v6 .z5-button { width:100%; min-height:54px; padding:12px 15px; border:1.5px solid var(--z5-ink); border-radius:0; background:var(--z5-cream); color:var(--z5-ink); box-shadow:3px 3px 0 var(--z5-ink); font:400 17px/1.25 'Visuelt Pro',Arial,sans-serif; }
-  #zavarilos-stop-motion-v6 .z5-button:hover { background:var(--z5-peach); }
+  @media (hover:hover) { #zavarilos-stop-motion-v6 .z5-button:hover { background:var(--z5-peach); } }
   #zavarilos-stop-motion-v6 .z5-button:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--z5-ink); }
   #zavarilos-stop-motion-v6 button:focus-visible { outline:2px solid var(--z5-cream); outline-offset:5px; }
   #zavarilos-stop-motion-v6 .z5-status { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
@@ -173,7 +173,7 @@
     #zavarilos-stop-motion-v6 .z5-tagline { margin-top:7px; padding-block:4px; }
     #zavarilos-stop-motion-v6 .z5-stage { margin-top:8px; }
     #zavarilos-stop-motion-v6 .z5-description { margin-top:8px; min-height:23px; }
-    #zavarilos-stop-motion-v6 .z5-actions { margin-top:9px; min-height:50px; }
+    #zavarilos-stop-motion-v6 .z5-actions { --z5-action-size:50px; margin-top:9px; min-height:50px; }
     #zavarilos-stop-motion-v6 .z5-button { min-height:50px; padding-block:9px; }
     #zavarilos-stop-motion-v6 .z5-result-paper { min-height:0; padding-block:13px 19px; }
     #zavarilos-stop-motion-v6 .z5-result-meta { padding-bottom:7px; }
@@ -188,7 +188,7 @@
     #zavarilos-stop-motion-v6 .z5-tagline { margin-top:4px; }
     #zavarilos-stop-motion-v6 .z5-stage { margin-top:5px; }
     #zavarilos-stop-motion-v6 .z5-description { margin-top:4px; font-size:15px; min-height:20px; }
-    #zavarilos-stop-motion-v6 .z5-actions { margin-top:6px; min-height:47px; }
+    #zavarilos-stop-motion-v6 .z5-actions { --z5-action-size:47px; margin-top:6px; min-height:47px; }
     #zavarilos-stop-motion-v6 .z5-button { min-height:47px; }
     #zavarilos-stop-motion-v6 .z5-result-paper { padding:7px 14px 12px; }
     #zavarilos-stop-motion-v6 .z5-result-meta { padding-bottom:4px; }
@@ -210,8 +210,10 @@
     background:#fff9ee;border:1px solid #191919;resize:vertical;}
   .z5-share-controls {display:flex;gap:8px;flex-wrap:wrap;margin-top:7px;}
   .z5-share p {margin:7px 0 0;}
-  .z5-download {display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:2px 8px;color:inherit;font:400 14px/1.3 "Visuelt Pro",Arial,sans-serif;text-decoration:underline;text-underline-offset:3px;}
-  .z5-download:focus-visible {outline:2px solid var(--z5-cream);outline-offset:3px;}
+  #zavarilos-stop-motion-v6 .z5-main {flex:1;min-width:0;height:var(--z5-action-size);}
+  #zavarilos-stop-motion-v6 .z5-download {display:grid;place-items:center;flex:0 0 var(--z5-action-size);width:var(--z5-action-size);height:var(--z5-action-size);padding:0;text-decoration:none;}
+  .z5-download svg {width:23px;height:23px;}
+  .z5-download:focus-visible {outline:2px solid var(--z5-cream);outline-offset:5px;}
   .z5-share [hidden] {display:none!important;}
   @media(prefers-reduced-motion:reduce) { #zavarilos-stop-motion-v6 .z5-screen * { animation:none!important; } }
 </style>
@@ -245,7 +247,7 @@
       </div></section>
     </div>
     <p class="z5-description">Какой сегодня будет день?</p>
-    <div class="z5-actions"><button class="z5-button z5-main" type="button">Перевернуть кружку</button><a class="z5-download" download="zavarilos.png" hidden>Скачать предсказание</a></div>
+    <div class="z5-actions"><a class="z5-button z5-download" download="zavarilos.png" aria-label="Скачать предсказание" title="Скачать предсказание" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"/></svg></a><button class="z5-button z5-main" type="button">Перевернуть кружку</button></div>
     <p class="z5-status" role="status" aria-live="polite"></p>
   </article>
 </div>
@@ -422,7 +424,7 @@ function dailySign(seed) {
   const shareFeedback = shareDialog.querySelector('.z5-share-feedback');
 
   function loadShareAssets() {
-    const urls = Object.fromEntries(Object.entries(CARD_ASSET_FILES).map(([key,file]) => [key,new URL('./assets/'+file,location.href).href]));
+    const urls = Object.fromEntries(Object.entries(CARD_ASSET_FILES).map(([key,file]) => [key,new URL('./assets/'+file,document.baseURI).href]));
     urls.logo = root.querySelector('.z5-logo').src;
     return loadCardImages(urls);
   }
@@ -455,7 +457,9 @@ function dailySign(seed) {
       const imageOnly = {files:[file]};
       photoSavePayload = appleMobile && typeof navigator.share === 'function' &&
         navigator.canShare?.(imageOnly) === true ? imageOnly : undefined;
-      predictionDownload.textContent = photoSavePayload ? 'Сохранить предсказание' : 'Скачать предсказание';
+      const saveLabel = photoSavePayload ? 'Сохранить предсказание' : 'Скачать предсказание';
+      predictionDownload.setAttribute('aria-label',saveLabel);
+      predictionDownload.title = saveLabel;
       const url = URL.createObjectURL(file);
       shareDownload.href = predictionDownload.href = url;
       sharePreview.src = url;

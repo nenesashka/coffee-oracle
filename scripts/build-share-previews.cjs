@@ -52,9 +52,10 @@ const escape = value => value.replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt
 <link rel="icon" href="../../../../icon.svg"><link rel="canonical" href="${item.url}">
 <style>body{margin:24px auto;padding:0 20px;max-width:540px;background:#ed272e;color:#fff0d4;font:18px/1.4 system-ui}img{width:100%;height:auto}a{color:inherit}</style>
 </head><body><p>${escape(item.caption)}</p><a href="${item.home}">Узнать своё предсказание</a><p><img src="card.jpg" width="1080" height="1350" alt="${escape(item.alt)}"></p>
-<script>location.replace(${JSON.stringify(item.home)});</script></body></html>`;
+</body></html>`;
       await writeFile(resolve(directory,'index.html'),html);
     }
+    await require('./build-share-pages.cjs').buildSharePages();
     console.log('Generated '+previews.length+' link previews');
   } finally { await browser.close(); }
 })().catch(error => {console.error(error);process.exitCode=1;});

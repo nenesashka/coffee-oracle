@@ -37,6 +37,8 @@ jobs:
           printf '%s' "$REGULAR_2" | base64 --decode >> public/fonts/visuelt-regular-3006.woff2
           test -s public/fonts/visuelt-light-3006.woff2
           test -s public/fonts/visuelt-regular-3006.woff2
+      - name: Refresh shared prediction pages
+        run: node scripts/build-share-pages.cjs
       - uses: actions/upload-pages-artifact@v4
         with:
           path: public
