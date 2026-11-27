@@ -1,19 +1,36 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-load-state="loading">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#ed272e">
 <meta name="description" content="Заварилось — бумажное кофейное предсказание от Лицея.">
 <meta name="robots" content="noindex">
 <title>Заварилось · Лицей</title>
 <link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="assets/cup-frames.avif" id="z5-cup-source">
 <style>
-  html { margin:0; overscroll-behavior:none; background:#ed272e; }
-  body { margin:0; min-height:100svh; display:grid; place-items:center; }
-  #zavarilos-stop-motion-v6 { width:100%; }
+  html { margin:0; overflow:hidden; overflow:clip; overscroll-behavior:none; background:#ed272e; }
+  body {
+    margin:0; box-sizing:border-box; height:100vh;
+    height:min(100svh, var(--z5-visible-bottom, 100svh));
+    padding-top:var(--z5-visible-top, 0px); overflow:hidden; overflow:clip;
+  }
+  #zavarilos-stop-motion-v6 { width:100%; height:100%; display:grid; place-items:center; container:z5-viewport / size; }
+  html:not([data-load-state="ready"]) #zavarilos-stop-motion-v6 { opacity:0; pointer-events:none; }
+  .z5-load-error { display:none; }
+  html[data-load-state="error"] .z5-load-error, .z5-no-script {
+    position:fixed; inset:0; display:grid; place-content:center; gap:8px;
+    padding:20px; color:#fff0d4; text-align:center; font:16px/1.4 system-ui,sans-serif;
+  }
+  .z5-load-error a { color:inherit; padding:8px; }
   #zavarilos-stop-motion-v6 button { cursor:pointer; }
 </style>
+<script>
+  const loadDeadline = setTimeout(() => {
+    document.documentElement.dataset.loadState = 'error';
+  }, 20000);
+</script>
 </head>
 <body>
 <style>
@@ -24,10 +41,15 @@
   #zavarilos-stop-motion-v6 .z5-screen {
     display: flex;
     flex-direction: column;
-    height: min(775px, 100svh);
-    padding-top: max(20px, env(safe-area-inset-top, 0px));
-    padding-bottom: max(23px, env(safe-area-inset-bottom, 0px));
+    height: min(775px, 100%);
+    padding-top: 20px;
+    padding-bottom: max(23px, var(--z5-browser-clearance, 0px));
     overflow: clip;
+  }
+  @supports (-webkit-touch-callout:none) {
+    @media (pointer:coarse) and (orientation:portrait) {
+      #zavarilos-stop-motion-v6 { --z5-browser-clearance:34px; }
+    }
   }
   #zavarilos-stop-motion-v6 .z5-screen > :not(.z5-stage) { flex-shrink: 0; }
   #zavarilos-stop-motion-v6 .z5-screen *, #zavarilos-stop-motion-v6 .z5-screen *::before { box-sizing:border-box; }
@@ -52,6 +74,7 @@
   #zavarilos-stop-motion-v6 .z5-tape .z5-wiggle { transform:rotate(var(--z5-angle)); }
   #zavarilos-stop-motion-v6 .z5-spoon, #zavarilos-stop-motion-v6 .z5-seal { z-index:3; }
   #zavarilos-stop-motion-v6 .z5-eye, #zavarilos-stop-motion-v6 .z5-arrow { z-index:7; }
+  #zavarilos-stop-motion-v6 .z5-eye .z5-image { transform:scaleX(-1); }
   #zavarilos-stop-motion-v6 .z5-croissant, #zavarilos-stop-motion-v6 .z5-danish { z-index:8; }
   #zavarilos-stop-motion-v6 .z5-cup { z-index:6; }
   #zavarilos-stop-motion-v6 .z5-cup .z5-wiggle { --z5-angle:-2deg; --z5-duration:1.9s; }
@@ -85,10 +108,10 @@
   @keyframes z5-idle { 0%,100% { transform:translate(0,0) rotate(var(--z5-angle)); } 20% { transform:translate(1px,-2px) rotate(calc(var(--z5-angle) + 1.4deg)); } 45% { transform:translate(-1px,1px) rotate(calc(var(--z5-angle) - 1.2deg)); } 70% { transform:translate(2px,0) rotate(calc(var(--z5-angle) + .7deg)); } }
   @keyframes z5-receipt { 0%,100% { transform:translate(0,0) rotate(-3deg); } 33% { transform:translate(1px,-1px) rotate(-2.7deg); } 66% { transform:translate(-1px,0) rotate(-3.2deg); } }
   @media(max-width:370px) { #zavarilos-stop-motion-v6 .z5-screen { padding-inline:19px; } #zavarilos-stop-motion-v6 .z5-tagline { font-size:13px; } #zavarilos-stop-motion-v6 .z5-result-paper { padding-inline:17px; min-height:285px; } #zavarilos-stop-motion-v6 .z5-result p { font-size:14px; } #zavarilos-stop-motion-v6 .z5-description { font-size:16px; } #zavarilos-stop-motion-v6 .z5-button { font-size:15px; padding-inline:10px; } #zavarilos-stop-motion-v6 .z5-back { font-size:13px; } }
-  @media(max-height:730px) {
+  @container z5-viewport (max-height:730px) {
     #zavarilos-stop-motion-v6 .z5-screen {
-      padding-top:max(10px, env(safe-area-inset-top, 0px));
-      padding-bottom:max(12px, env(safe-area-inset-bottom, 0px));
+      padding-top:10px;
+      padding-bottom:max(12px, var(--z5-browser-clearance, 0px));
     }
     #zavarilos-stop-motion-v6 .z5-header { height:32px; }
     #zavarilos-stop-motion-v6 .z5-logo { width:90px; height:32px; }
@@ -104,7 +127,7 @@
     #zavarilos-stop-motion-v6 .z5-result p { margin-top:8px; font-size:14px; }
     #zavarilos-stop-motion-v6 .z5-stamp { margin-top:10px; font-size:13px; }
   }
-  @media(max-height:475px) {
+  @container z5-viewport (max-height:475px) {
     #zavarilos-stop-motion-v6 .z5-header { height:26px; }
     #zavarilos-stop-motion-v6 .z5-logo { height:26px; }
     #zavarilos-stop-motion-v6 .z5-title { margin-top:5px; font-size:31px; }
@@ -121,19 +144,19 @@
   }
   @media(prefers-reduced-motion:reduce) { #zavarilos-stop-motion-v6 .z5-screen * { animation:none!important; } }
 </style>
-<div id="zavarilos-stop-motion-v6">
+<div id="zavarilos-stop-motion-v6" inert>
   <article class="z5-screen" aria-label="Заварилось — фотографический бумажный коллаж" data-view="hero" data-busy="false" data-pouring="false">
     <header class="z5-header"><img class="z5-logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjg2IiBoZWlnaHQ9IjI1MyIgdmlld0JveD0iMCAwIDY4NiAyNTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik02NzguMiAxOS45QzY3Ny42IDIwLjMgNjIwLjQgNTcuMyA1OTEuMiA3MC40QzU4OS42IDcxLjEgNTg4LjIgNzEuNyA1ODcgNzIuMkw2MDYuNCAzNi44TDU5Ni40IDMxLjRDNTk2IDMxLjggNTU1LjcgNjkgNTQzIDc5LjJMNTYwLjQgNDcuNEw1NTAuNCA0MkM1NTAgNDIuNCA1MTEuOSA3OS41IDQ4MC4zIDk2QzQ3Ni4yIDk4LjIgNDY5LjMgMTAxLjggNDY1LjcgMTAwLjdDNDcxLjggOTYuOCA0ODMuNiA4OS4zIDQ5My4xIDgxLjdDNTAwLjYgNzUuOCA1MDYuNyA2Ny45IDUwMC4zIDYwQzQ5Ni41IDU1LjMgNDg3LjYgNTMuMiA0NzcuMyA1OS44TDQ3Ny4yIDU5LjlDNDcxLjggNjMuNiA0NjMuNyA3MC44IDQ1Ni4xIDg2LjVDNDU0LjYgODkuNyA0NTMuNCA5Mi42IDQ1Mi45IDk1LjJDNDQ3LjMgOTguOCA0MzQuMSAxMDggNDI1LjkgMTEzLjZMNDM0LjkgMTAyLjZMNDI1LjYgOTcuMkw0MDguMiAxMTEuM0M0MDcuOCAxMTEuNiA0MDcuNCAxMTEuOSA0MDcgMTEyLjFMNDI1LjggNzkuM0w0MTUuOSA3My43QzQxNS41IDc0LjEgMzc0LjYgMTEwLjggMzYxLjIgMTIxLjZMMzc5LjMgOTAuM0wzNjkuNCA4NC43QzM2OSA4NSAzMzEuOCAxMTYuMSAzMDEuMiAxMzYuMUMzMDEgMTM2LjIgMzAwLjkgMTM2LjMgMzAwLjcgMTM2LjRMMzE4LjggMTA0LjJMMzA4LjggOTguN0MzMDguNCA5OS4xIDI2OC40IDEzNS44IDI1NS4zIDE0Ni41TDI3My4zIDExNC43TDI2My40IDEwOS4yQzI2MyAxMDkuNSAyMjQuNyAxNDcuNiAxOTEuNiAxNjcuNUMxODkgMTY4LjkgMTg2LjkgMTcwLjEgMTg1LjEgMTcxQzE5OC40IDE0Ny41IDIzOC40IDc2LjYgMjM4LjggNzUuOEMyMzUuODA3IDczLjI5NDQgMjMyLjM0OCA3MC45NDc3IDIyOS42IDY4LjJDMTQ0LjEgMTUxLjcgNDAuNiAyMTguNSAwIDI0My4zTDUuNyAyNTIuN0M0Mi44IDIzMCAxMzIuMiAxNzIuNCAyMTMgOTlDMTk2LjEgMTI4LjggMTcyLjcgMTcwLjIgMTcwLjggMTczLjNDMTY4LjEgMTc3LjkgMTY4LjEgMTgxLjcgMTcwLjcgMTg0LjNDMTc0LjkgMTg4LjYgMTgyLjkgMTg2LjUgMTk3LjIgMTc3LjZDMjA5LjYgMTcwLjUgMjM1LjcgMTUwLjEgMjQ4LjEgMTM2LjdMMjQwLjIgMTUxQzIzNi41IDE1Ny41IDIzOS40IDE2MSAyNDAuOCAxNjIuMkMyNDIuMSAxNjMuMyAyNDMuNyAxNjMuOSAyNDUuNSAxNjMuOUMyNDkuNSAxNjMuOSAyNTQuOCAxNjEuMiAyNjIgMTU1LjVDMjY3LjggMTUwLjkgMjgzIDEzNy4yIDI5NC43IDEyNi42TDI4Ni4zIDE0MEMyODIuOSAxNDUuOSAyODUuMSAxNDkuMyAyODYuNiAxNTAuN0MyODggMTUyIDI4OS42IDE1Mi42IDI5MS41IDE1Mi42QzI5NS43IDE1Mi42IDMwMS4yIDE0OS42IDMwOC40IDE0NC45QzMyNC40IDEzNC40IDM0MS43IDEyMS4yIDM1NC44IDExMC44TDM0Ni4yIDEyNkMzNDIuNSAxMzIuNSAzNDUuNCAxMzYgMzQ2LjggMTM3LjJDMzQ4LjEgMTM4LjMgMzQ5LjcgMTM4LjkgMzUxLjUgMTM4LjlDMzU1LjUgMTM4LjkgMzYwLjggMTM2LjIgMzY4IDEzMC41QzM3My45IDEyNS45IDM4OSAxMTIuMyA0MDEgMTAxLjdMMzkyLjkgMTE0LjZDMzg5LjIgMTIxLjEgMzkyLjUgMTI0LjcgMzkzLjYgMTI1LjdDMzk3LjIgMTI4LjkgNDAzLjEgMTI3LjQgNDExLjMgMTIyLjNMNDEwIDEyNC44QzQwNC45IDEyOC4zIDQwMi4xIDEyOS45IDQwMS4xIDEzMC42QzM5NS4yIDEzNS4yIDM5NC4yIDE0MC42IDM5NS4yIDE0NC4yQzM5Ni4xIDE0Ny40IDM5OC42IDE0OS42IDQwMS43IDE1MEM0MDIgMTUwIDQwMi40IDE1MC4xIDQwMi43IDE1MC4xQzQwNS4yIDE1MC4xIDQwOS4yIDE0OC45IDQxMi43IDE0Mi44TDQxOC43IDEzMi4xQzQyMS45IDEyOS45IDQyNS41IDEyNy41IDQyOSAxMjVDNDM4LjIgMTE4LjcgNDQ4LjEgMTExLjkgNDU1LjMgMTA2LjlDNDU2LjcgMTA4LjYgNDU4LjkgMTEwLjMgNDYyLjIgMTExLjRDNDYzLjkgMTExLjkgNDY1LjYgMTEyLjIgNDY3LjMgMTEyLjJDNDczLjkgMTEyLjIgNDgwLjUgMTA4LjcgNDg1LjYgMTA2LjFDNTAyLjUgOTcuMyA1MjMuOSA3OS40IDUzNy43IDY3LjdMNTI4LjEgODMuNUM1MjQuNSA5MCA1MjcuNCA5My40IDUyOC44IDk0LjZDNTMwLjEgOTUuNyA1MzEuNyA5Ni4zIDUzMy41IDk2LjNDNTM3LjUgOTYuMyA1NDIuOCA5My42IDU1MCA4Ny45QzU1NS45IDgzLjMgNTY5LjcgNzAgNTgxLjMgNTkuNkw1NzQuNSA3Mi4zQzU3MS41IDc3LjcgNTcyLjggODAuOSA1NzQuNSA4Mi43QzU3NiA4NC4zIDU3Ny44IDg1LjEgNTgwLjEgODUuMUM1ODMuOSA4NS4xIDU4OS4yIDgzLjEgNTk2LjkgNzkuNkM2MjYuOSA2Ni4xIDY4My4xIDI5LjggNjg1LjUgMjguM0w2NzguMiAxOS45Wk00ODQuNSA2OUM0ODcgNjcuMyA0OTAuMyA2Ni4zIDQ5MS4xIDY3LjRDNDkxLjkgNjguNSA0ODkuNSA3MC44IDQ4Ny4yIDcyLjVDNDg1LjQgNzMuOSA0NjcuNiA4Ni43IDQ2Ny42IDg2LjdDNDczLjQgNzcuOCA0ODEuOCA3MC45IDQ4NC41IDY5WiIgZmlsbD0iI0VEMjcyRSIvPgo8cGF0aCBkPSJNNjAzLjMgNS42TDU5My40IDBDNTc3LjYgMTQuOCA1NjguMSAzMS40IDU2Ny42IDMyLjJMNTc3LjIgMzcuNUM1NzcuMyAzNy4zIDU4Ny4zIDE5LjggNjAzLjMgNS42WiIgZmlsbD0iI0VEMjcyRSIvPgo8L3N2Zz4=" alt="Лицей"><span class="z5-header-note">предсказания<br>к кофе</span></header>
     <h1 class="z5-title">ЗАВАРИЛОСЬ</h1>
-    <div class="z5-tagline">кажется, это к хорошему.</div>
+    <div class="z5-tagline">кажется, это к хорошему</div>
     <div class="z5-stage" aria-label="Живой коллаж с наполненной кружкой">
       <div class="z5-art">
       <div class="z5-paper" aria-hidden="true"></div>
       <figure class="z5-piece z5-photo" data-piece="photo"><div class="z5-wiggle"><img src="assets/photo.avif" alt="Гостья Лицея с кофе"></div></figure>
       <div class="z5-piece z5-tape" data-piece="tape" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/tape.avif" alt=""></div></div>
       <div class="z5-piece z5-spoon" data-piece="spoon" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/spoon.avif" alt=""></div></div>
-      <div class="z5-piece z5-eye" data-piece="eye" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/eye.avif" alt=""></div></div>
-      <div class="z5-piece z5-croissant" data-piece="croissant" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/croissant.avif" alt=""></div></div>
+      <div class="z5-piece z5-eye" data-piece="eye" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/eye-v2.avif" alt=""></div></div>
+      <div class="z5-piece z5-croissant" data-piece="croissant" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/croissant-v2.avif" alt=""></div></div>
       <div class="z5-piece z5-seal" data-piece="seal" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/seal.avif" alt=""></div></div>
       <div class="z5-piece z5-arrow" data-piece="arrow" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/arrow.avif" alt=""></div></div>
       <div class="z5-piece z5-danish" data-piece="danish"><div class="z5-wiggle"><img class="z5-image" src="assets/danish.avif" alt="Бумажная вырезка слойки с ягодами"></div></div>
@@ -155,6 +178,11 @@
     <p class="z5-status" role="status" aria-live="polite"></p>
   </article>
 </div>
+<div class="z5-load-error" role="status">
+  <span>Коллаж не загрузился</span>
+  <a href="./">Попробовать снова</a>
+</div>
+<noscript><p class="z5-no-script">Включи JavaScript, чтобы открыть коллаж</p></noscript>
 <script type="module">
 import { signs } from './assets/signs-v1.js?v=2';
 
@@ -260,7 +288,9 @@ function createSignDrawer() {
     const tapeCenterY = ph.y + ph.h / 2 + offsetX * Math.sin(photoRotation) + offsetY * Math.cos(photoRotation);
     place(pieces.tape,tapeCenterX-tapeWidth/2,tapeCenterY-tapeHeight/2,tapeWidth,tapeHeight,photoAngle+48,1.9);
     place(pieces.spoon,mix(W*.55,W*.63),mix(heroH*.035,0),W*.40,W*.40/.93,-8,1.45);
-    place(pieces.eye,mix(W*.69,W*.60),mix(heroH*.46,openH*.14),W*.34,W*.34/2.2,12,1.65);
+    const eyeWidth = W * .30;
+    const eyeHeight = eyeWidth / 1.44;
+    place(pieces.eye,mix(W*.72,W*.62),mix(heroH*.46,openH*.14)-W*.025,eyeWidth,eyeHeight,7,1.65);
     place(pieces.croissant,mix(W*.60,W*.65),mix(heroH-W*.43/1.27-18,openH-W*.43/1.27-18),W*.43,W*.43/1.27,12,1.5);
     place(pieces.danish,mix(W*.01,0),mix(heroH-W*.42/1.09-16,openH-W*.42/1.09-16),W*.42,W*.42/1.09,-12,1.65);
     place(pieces.arrow,mix(0,-W*.02),mix(heroH*.54,openH*.52),W*.26,W*.26/1.35,-19,1.3);
@@ -286,7 +316,7 @@ function createSignDrawer() {
   function hideExtras(){extras.forEach(el=>{el.dataset.active='false';delete el.dataset.pop;});}
   function selectExtras(){hideExtras();const pairs=[['beans','checks'],['coffeeStamp','beans'],['checks','coffeeStamp']];return pairs[cycle++%pairs.length].map(name=>pieces[name]);}
   function showExtra(el,delay){later(()=>{el.dataset.active='true';el.dataset.pop='0';},delay);later(()=>{el.dataset.pop='1';},delay+85);later(()=>{el.dataset.pop='2';},delay+175);}
-  function renderStable(){screen.dataset.view=view;screen.dataset.busy='false';main.disabled=false;back.disabled=false;main.setAttribute('aria-busy','false');result.hidden=view!=='result';back.hidden=view!=='result';main.textContent=view==='result'?'Другой знак':'Перевернуть кружку';description.textContent=view==='result'?'Пусть так и будет.':'Какой сегодня будет день?';delete result.dataset.pop;setSpread(view==='result'?1:0);frame(view==='result'?11:0);if(view==='hero')hideExtras();}
+  function renderStable(){screen.dataset.view=view;screen.dataset.busy='false';main.disabled=false;back.disabled=false;main.setAttribute('aria-busy','false');result.hidden=view!=='result';back.hidden=view!=='result';main.textContent=view==='result'?'Другой знак':'Перевернуть кружку';description.textContent=view==='result'?'Пусть так и будет':'Какой сегодня будет день?';delete result.dataset.pop;setSpread(view==='result'?1:0);frame(view==='result'?11:0);if(view==='hero')hideExtras();}
   function finish(announcement) {
     view = 'result';
     renderStable();
@@ -306,7 +336,7 @@ function createSignDrawer() {
       finish(announcement);
       return;
     }
-    view='animating';screen.dataset.view='clearing';screen.dataset.busy='true';main.disabled=true;back.disabled=true;main.setAttribute('aria-busy','true');result.hidden=true;hideExtras();frame(0);setSpread(0);description.textContent='Сейчас всё выясним.';status.textContent='Кружка переворачивается.';
+    view='animating';screen.dataset.view='clearing';screen.dataset.busy='true';main.disabled=true;back.disabled=true;main.setAttribute('aria-busy','true');result.hidden=true;hideExtras();frame(0);setSpread(0);description.textContent='Сейчас всё выясним';status.textContent='Кружка переворачивается.';
     [.18,.43,.72,1].forEach((v,i)=>later(()=>setSpread(v),i*150));
     selectExtras().forEach((el,i)=>showExtra(el,180+i*160));
     later(()=>{screen.dataset.view='turning';},620);
@@ -317,9 +347,60 @@ function createSignDrawer() {
   function reset(callback){clearTimers();view='returning';screen.dataset.view='returning';screen.dataset.busy='true';result.hidden=true;main.disabled=true;back.disabled=true;frame(0);hideExtras();if(reduced.matches){view='hero';renderStable();callback?.();return;}[.72,.43,.18,0].forEach((v,i)=>later(()=>setSpread(v),i*140));later(()=>{view='hero';renderStable();status.textContent='';callback?.();},580);}
   main.addEventListener('click',()=>{if(view==='result')reset(turn);else turn();});
   back.addEventListener('click',()=>reset());
-  renderStable();if(view==='result'){pieces.beans.dataset.active='true';pieces.beans.dataset.pop='2';pieces.checks.dataset.active='true';pieces.checks.dataset.pop='2';}
-  const observer=new ResizeObserver(layout);
+  const page = document.documentElement;
+  const viewport = window.visualViewport;
+  let viewportFrame;
+  function fitViewport() {
+    viewportFrame = undefined;
+    // Keep browser chrome out of the layout without resizing the collage when zoomed.
+    if (!viewport || Math.abs(viewport.scale - 1) > .01) return;
+    const top = Math.max(0, Math.ceil(viewport.offsetTop));
+    const bottom = Math.floor(viewport.height + viewport.offsetTop);
+    if (bottom <= top) return;
+    page.style.setProperty('--z5-visible-top', top + 'px');
+    page.style.setProperty('--z5-visible-bottom', bottom + 'px');
+  }
+  function queueViewportFit() {
+    viewportFrame ??= requestAnimationFrame(fitViewport);
+  }
+  function refitAfterReturn() {
+    queueViewportFit();
+    // Safari can settle its toolbar geometry after the first restored frame.
+    setTimeout(queueViewportFit, 120);
+    setTimeout(queueViewportFit, 400);
+  }
+  viewport?.addEventListener('resize', queueViewportFit);
+  viewport?.addEventListener('scroll', queueViewportFit);
+  window.addEventListener('resize', queueViewportFit);
+  window.addEventListener('pageshow', refitAfterReturn);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) refitAfterReturn();
+  });
+  const observer = new ResizeObserver(layout);
   observer.observe(stage);
+
+  async function showCollage() {
+    const sprite = new Image();
+    sprite.src = document.getElementById('z5-cup-source').href;
+    const fonts = Promise.allSettled([
+      document.fonts.load('400 16px "Visuelt Pro"', 'Какой сегодня будет день?'),
+      document.fonts.load('700 54px "ZV Condensed"', 'ЗАВАРИЛОСЬ'),
+    ]);
+    try {
+      await Promise.all([fonts, ...[...root.querySelectorAll('img'), sprite].map(image => image.decode())]);
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      fitViewport();
+      renderStable();
+      root.inert = false;
+      page.dataset.loadState = 'ready';
+    } catch {
+      page.dataset.loadState = 'error';
+    } finally {
+      clearTimeout(loadDeadline);
+    }
+  }
+  fitViewport();
+  showCollage();
 })();
 </script>
 
