@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123b30">
+  <meta name="description" content="Новогодние предсказания к кофе от Лицея. Переверни чашку и узнай, что заварится в новом году.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Заварилось · Лицей">
+  <meta property="og:title" content="Что заварится в новом году?">
+  <meta property="og:description" content="Новогодние предсказания к кофе от Лицея">
+  <meta property="og:url" content="https://nenesashka.github.io/coffee-oracle/zavarilos-xmas/">
+  <meta property="og:image" content="https://nenesashka.github.io/coffee-oracle/zavarilos-xmas/assets/winter-cup.jpg">
+  <meta property="og:image:alt" content="Кофейная чашка с еловой веткой и красной бумажной звездой">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Заварилось · Новогодний выпуск Лицея</title>
+  <link rel="icon" href="../icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="winter.css">
+  <script type="module" src="winter.js"></script>
+</head>
+<body>
+  <div class="edition">
+    <header class="masthead">
+      <img src="assets/lyceum-cream.svg" alt="Лицей" width="112" height="42">
+      <span>Новогодний выпуск</span>
+    </header>
+    <main>
+      <section class="invitation" aria-labelledby="title">
+        <h1 id="title">Заварилось</h1>
+        <p class="subtitle">Что заварится<br>в новом году?</p>
+        <button class="button flip" type="button">Перевернуть чашку</button>
+        <noscript><p>Включи JavaScript, чтобы получить предсказание.</p></noscript>
+      </section>
+      <figure class="tableau" aria-hidden="true">
+        <img class="collage" src="assets/winter-cup.jpg" alt="" fetchpriority="high">
+        <div class="flurries"></div>
+        <div class="glint"><span>✦</span><span>✧</span><span>✦</span><span>✧</span><span>✦</span></div>
+      </figure>
+      <section class="result" aria-label="Твоё новогоднее предсказание" hidden>
+        <article class="receipt">
+          <p class="receipt-note">Лицей / Твой знак на Новый год</p>
+          <h2 tabindex="-1"></h2>
+          <p class="fortune"></p>
+          <p class="stamp"></p>
+        </article>
+        <div class="actions">
+          <button class="button save" type="button" aria-label="Сохранить предсказание" title="Сохранить предсказание">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"/></svg>
+          </button>
+          <button class="button share" type="button">Поделиться</button>
+        </div>
+        <p class="feedback" role="status" hidden></p>
+        <a class="share-fallback" hidden></a>
+      </section>
+    </main>
+    <footer><a href="../zavarilos/">Обычные предсказания</a></footer>
+  </div>
+</body>
+</html>
