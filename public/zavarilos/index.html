@@ -322,7 +322,7 @@ function dailySign(seed) {
   const reduced=window.matchMedia('(prefers-reduced-motion:reduce)');
   let view='hero';
   let spread=0, frameIndex=0;
-  let currentSign, sharePayload, shareAssets, shareOpen = false;
+  let currentSign, sharePayload, photoSavePayload, shareAssets, shareOpen = false;
   const mix=(a,b)=>a+(b-a)*spread, clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
   function layout(){
@@ -450,6 +450,12 @@ function dailySign(seed) {
       const blob = await cardPng(canvas);
       const file = new File([blob],'zavarilos.png',{type:'image/png'});
       sharePayload = {files:[file],text:shareCaption(currentSign)};
+      const appleMobile = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const imageOnly = {files:[file]};
+      photoSavePayload = appleMobile && typeof navigator.share === 'function' &&
+        navigator.canShare?.(imageOnly) === true ? imageOnly : undefined;
+      predictionDownload.textContent = photoSavePayload ? 'Сохранить предсказание' : 'Скачать предсказание';
       const url = URL.createObjectURL(file);
       shareDownload.href = predictionDownload.href = url;
       sharePreview.src = url;
@@ -488,6 +494,19 @@ function dailySign(seed) {
     }
   }
   main.addEventListener('click',() => { if (view === 'result') openShare(); else if (view === 'hero') turn(); });
+  predictionDownload.addEventListener('click',async event => {
+    if (!photoSavePayload) return;
+    event.preventDefault();
+    if (shareOpen) return;
+    shareOpen = true;
+    try { await navigator.share(photoSavePayload); }
+    catch (error) {
+      if (error.name !== 'AbortError') {
+        showShareFallback();
+        shareFeedback.textContent = 'Зажми картинку и выбери сохранение в «Фото». Также можно скачать PNG.';
+      }
+    } finally { shareOpen = false; }
+  });
   shareFileButton.addEventListener('click',async () => {
     if (shareOpen || !sharePayload) return;
     if (!navigator.share || navigator.canShare?.(sharePayload) === false) {
