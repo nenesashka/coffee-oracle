@@ -66,7 +66,15 @@
   #zavarilos-stop-motion-v6 .z5-piece { pointer-events:none; }
   #zavarilos-stop-motion-v6 .z5-wiggle { width:100%; height:100%; --z5-angle:0deg; animation:z5-idle var(--z5-duration,1.7s) steps(1,end) infinite; animation-delay:var(--z5-delay,0s); }
   #zavarilos-stop-motion-v6 .z5-image { display:block; width:100%; height:100%; object-fit:contain; filter:drop-shadow(1px 2px 0 rgb(25 25 25 / .12)); }
-  #zavarilos-stop-motion-v6 .z5-paper { z-index:0; background:var(--z5-peach); border:1.5px solid var(--z5-ink); border-radius:44px 55px 42px 51px; --z5-angle:-7deg; animation:z5-idle 2.7s steps(1,end) infinite; }
+  #zavarilos-stop-motion-v6 .z5-paper { z-index:0; pointer-events:none; --z5-angle:0deg; animation:z5-idle 2.7s steps(1,end) infinite; }
+  .z5-paper-layer {position:absolute; width:100%; height:100%; left:var(--x); top:var(--y);
+    transform:translate(-50%,-50%) rotate(var(--angle)) scale(var(--size));
+    background:linear-gradient(158deg,#fff6de13,transparent 34%,#5b382913 74%,#fff3d530), var(--paper);
+    mask:var(--shape) center/contain no-repeat; }
+  .z5-paper-layer::after {content:"";position:absolute;inset:0;background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMzAiIGhlaWdodD0iMTMwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii40OCIgbnVtT2N0YXZlcz0iNCIgc2VlZD0iMTgiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PC9maWx0ZXI+PHBhdGggZD0iTTAgMGgxMzB2MTMwSDB6IiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9Ii43MiIvPjwvc3ZnPg==") 0 0 / 94px 94px;
+    opacity:.59;mix-blend-mode:multiply;pointer-events:none;}
+  .z5-paper-layer:first-child { --x:39%; --y:71%; --angle:-12deg; --size:1.36; --paper:#f7c5aa; --shape:url('assets/plate-blot.svg'); }
+  .z5-paper-layer:last-child { --x:66%; --y:36%; --angle:-26deg; --size:.99; --paper:#fff0d4; --shape:url('assets/plate-soft.svg'); }
   #zavarilos-stop-motion-v6 .z5-photo { z-index:5; }
   #zavarilos-stop-motion-v6 .z5-photo .z5-wiggle { padding:7px; background:var(--z5-cream); clip-path:polygon(1% 2%,20% 0,46% 1%,72% 0,99% 2%,100% 30%,99% 60%,100% 99%,71% 98%,41% 100%,0 98%,1% 72%); }
   #zavarilos-stop-motion-v6 .z5-photo img { display:block; width:100%; height:100%; object-fit:cover; object-position:51% 20%; }
@@ -100,14 +108,13 @@
   #zavarilos-stop-motion-v6 .z5-button { width:100%; min-height:54px; padding:12px 15px; border:1.5px solid var(--z5-ink); border-radius:0; background:var(--z5-cream); color:var(--z5-ink); box-shadow:3px 3px 0 var(--z5-ink); font:400 17px/1.25 'Visuelt Pro',Arial,sans-serif; }
   #zavarilos-stop-motion-v6 .z5-button:hover { background:var(--z5-peach); }
   #zavarilos-stop-motion-v6 .z5-button:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--z5-ink); }
-  #zavarilos-stop-motion-v6 .z5-back { width:auto; padding-inline:13px; background:transparent; box-shadow:none; font-size:14px; }
   #zavarilos-stop-motion-v6 button:focus-visible { outline:2px solid var(--z5-cream); outline-offset:5px; }
   #zavarilos-stop-motion-v6 .z5-status { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
   #zavarilos-stop-motion-v6 .z5-coffee-drop { position:absolute; z-index:9; width:10px; height:15px; border:2px solid var(--z5-cream); border-radius:70% 30% 60% 40%; background:#3d2113; opacity:0; pointer-events:none; }
   #zavarilos-stop-motion-v6 .z5-screen[data-pouring="true"] .z5-coffee-drop { opacity:1; }
   @keyframes z5-idle { 0%,100% { transform:translate(0,0) rotate(var(--z5-angle)); } 20% { transform:translate(1px,-2px) rotate(calc(var(--z5-angle) + 1.4deg)); } 45% { transform:translate(-1px,1px) rotate(calc(var(--z5-angle) - 1.2deg)); } 70% { transform:translate(2px,0) rotate(calc(var(--z5-angle) + .7deg)); } }
   @keyframes z5-receipt { 0%,100% { transform:translate(0,0) rotate(-3deg); } 33% { transform:translate(1px,-1px) rotate(-2.7deg); } 66% { transform:translate(-1px,0) rotate(-3.2deg); } }
-  @media(max-width:370px) { #zavarilos-stop-motion-v6 .z5-screen { padding-inline:19px; } #zavarilos-stop-motion-v6 .z5-tagline { font-size:13px; } #zavarilos-stop-motion-v6 .z5-result-paper { padding-inline:17px; min-height:285px; } #zavarilos-stop-motion-v6 .z5-result p { font-size:14px; } #zavarilos-stop-motion-v6 .z5-description { font-size:16px; } #zavarilos-stop-motion-v6 .z5-button { font-size:15px; padding-inline:10px; } #zavarilos-stop-motion-v6 .z5-back { font-size:13px; } }
+  @media(max-width:370px) { #zavarilos-stop-motion-v6 .z5-screen { padding-inline:19px; } #zavarilos-stop-motion-v6 .z5-tagline { font-size:13px; } #zavarilos-stop-motion-v6 .z5-result-paper { padding-inline:17px; min-height:285px; } #zavarilos-stop-motion-v6 .z5-result p { font-size:14px; } #zavarilos-stop-motion-v6 .z5-description { font-size:16px; } #zavarilos-stop-motion-v6 .z5-button { font-size:15px; padding-inline:10px; } }
   @container z5-viewport (max-height:730px) {
     #zavarilos-stop-motion-v6 .z5-screen {
       padding-top:10px;
@@ -142,16 +149,32 @@
     #zavarilos-stop-motion-v6 .z5-result p { margin-top:4px; font-size:13px; line-height:1.22; }
     #zavarilos-stop-motion-v6 .z5-stamp { margin-top:5px; font-size:11px; padding-block:2px; }
   }
+
+  .z5-share {box-sizing:border-box;width:min(370px,calc(100% - 32px));max-height:calc(100% - 32px);
+    padding:19px;background:#fff0d4;color:#191919;border:1.5px solid #191919;box-shadow:4px 4px #191919;
+    font:400 15px/1.35 'Visuelt Pro',Arial,sans-serif;}
+  .z5-share::backdrop {background:#22151093;}
+  .z5-share h2 {font:700 25px/1.15 'ZV Condensed',Arial,sans-serif;margin:0 0 9px;text-transform:uppercase;}
+  .z5-share-top {display:flex;justify-content:space-between;gap:8px;align-items:baseline;}
+  .z5-share button, .z5-share-download {border:1px solid #191919;background:none;padding:7px;
+    color:inherit;font:inherit;text-decoration:none;cursor:pointer;}
+  .z5-share-preview {display:block;max-width:100%;max-height:min(230px,33svh);margin:8px auto 12px;}
+  .z5-share textarea {box-sizing:border-box;width:100%;padding:8px;font:inherit;color:inherit;
+    background:#fff9ee;border:1px solid #191919;resize:vertical;}
+  .z5-share-controls {display:flex;gap:8px;flex-wrap:wrap;margin-top:7px;}
+  .z5-share-send {width:100%;margin-top:8px;background:#191919!important;color:#fff0d4!important;}
+  .z5-share p {margin:7px 0 0;}
+  .z5-share [hidden] {display:none!important;}
   @media(prefers-reduced-motion:reduce) { #zavarilos-stop-motion-v6 .z5-screen * { animation:none!important; } }
 </style>
 <div id="zavarilos-stop-motion-v6" inert>
   <article class="z5-screen" aria-label="Заварилось — фотографический бумажный коллаж" data-view="hero" data-busy="false" data-pouring="false">
     <header class="z5-header"><img class="z5-logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjg2IiBoZWlnaHQ9IjI1MyIgdmlld0JveD0iMCAwIDY4NiAyNTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik02NzguMiAxOS45QzY3Ny42IDIwLjMgNjIwLjQgNTcuMyA1OTEuMiA3MC40QzU4OS42IDcxLjEgNTg4LjIgNzEuNyA1ODcgNzIuMkw2MDYuNCAzNi44TDU5Ni40IDMxLjRDNTk2IDMxLjggNTU1LjcgNjkgNTQzIDc5LjJMNTYwLjQgNDcuNEw1NTAuNCA0MkM1NTAgNDIuNCA1MTEuOSA3OS41IDQ4MC4zIDk2QzQ3Ni4yIDk4LjIgNDY5LjMgMTAxLjggNDY1LjcgMTAwLjdDNDcxLjggOTYuOCA0ODMuNiA4OS4zIDQ5My4xIDgxLjdDNTAwLjYgNzUuOCA1MDYuNyA2Ny45IDUwMC4zIDYwQzQ5Ni41IDU1LjMgNDg3LjYgNTMuMiA0NzcuMyA1OS44TDQ3Ny4yIDU5LjlDNDcxLjggNjMuNiA0NjMuNyA3MC44IDQ1Ni4xIDg2LjVDNDU0LjYgODkuNyA0NTMuNCA5Mi42IDQ1Mi45IDk1LjJDNDQ3LjMgOTguOCA0MzQuMSAxMDggNDI1LjkgMTEzLjZMNDM0LjkgMTAyLjZMNDI1LjYgOTcuMkw0MDguMiAxMTEuM0M0MDcuOCAxMTEuNiA0MDcuNCAxMTEuOSA0MDcgMTEyLjFMNDI1LjggNzkuM0w0MTUuOSA3My43QzQxNS41IDc0LjEgMzc0LjYgMTEwLjggMzYxLjIgMTIxLjZMMzc5LjMgOTAuM0wzNjkuNCA4NC43QzM2OSA4NSAzMzEuOCAxMTYuMSAzMDEuMiAxMzYuMUMzMDEgMTM2LjIgMzAwLjkgMTM2LjMgMzAwLjcgMTM2LjRMMzE4LjggMTA0LjJMMzA4LjggOTguN0MzMDguNCA5OS4xIDI2OC40IDEzNS44IDI1NS4zIDE0Ni41TDI3My4zIDExNC43TDI2My40IDEwOS4yQzI2MyAxMDkuNSAyMjQuNyAxNDcuNiAxOTEuNiAxNjcuNUMxODkgMTY4LjkgMTg2LjkgMTcwLjEgMTg1LjEgMTcxQzE5OC40IDE0Ny41IDIzOC40IDc2LjYgMjM4LjggNzUuOEMyMzUuODA3IDczLjI5NDQgMjMyLjM0OCA3MC45NDc3IDIyOS42IDY4LjJDMTQ0LjEgMTUxLjcgNDAuNiAyMTguNSAwIDI0My4zTDUuNyAyNTIuN0M0Mi44IDIzMCAxMzIuMiAxNzIuNCAyMTMgOTlDMTk2LjEgMTI4LjggMTcyLjcgMTcwLjIgMTcwLjggMTczLjNDMTY4LjEgMTc3LjkgMTY4LjEgMTgxLjcgMTcwLjcgMTg0LjNDMTc0LjkgMTg4LjYgMTgyLjkgMTg2LjUgMTk3LjIgMTc3LjZDMjA5LjYgMTcwLjUgMjM1LjcgMTUwLjEgMjQ4LjEgMTM2LjdMMjQwLjIgMTUxQzIzNi41IDE1Ny41IDIzOS40IDE2MSAyNDAuOCAxNjIuMkMyNDIuMSAxNjMuMyAyNDMuNyAxNjMuOSAyNDUuNSAxNjMuOUMyNDkuNSAxNjMuOSAyNTQuOCAxNjEuMiAyNjIgMTU1LjVDMjY3LjggMTUwLjkgMjgzIDEzNy4yIDI5NC43IDEyNi42TDI4Ni4zIDE0MEMyODIuOSAxNDUuOSAyODUuMSAxNDkuMyAyODYuNiAxNTAuN0MyODggMTUyIDI4OS42IDE1Mi42IDI5MS41IDE1Mi42QzI5NS43IDE1Mi42IDMwMS4yIDE0OS42IDMwOC40IDE0NC45QzMyNC40IDEzNC40IDM0MS43IDEyMS4yIDM1NC44IDExMC44TDM0Ni4yIDEyNkMzNDIuNSAxMzIuNSAzNDUuNCAxMzYgMzQ2LjggMTM3LjJDMzQ4LjEgMTM4LjMgMzQ5LjcgMTM4LjkgMzUxLjUgMTM4LjlDMzU1LjUgMTM4LjkgMzYwLjggMTM2LjIgMzY4IDEzMC41QzM3My45IDEyNS45IDM4OSAxMTIuMyA0MDEgMTAxLjdMMzkyLjkgMTE0LjZDMzg5LjIgMTIxLjEgMzkyLjUgMTI0LjcgMzkzLjYgMTI1LjdDMzk3LjIgMTI4LjkgNDAzLjEgMTI3LjQgNDExLjMgMTIyLjNMNDEwIDEyNC44QzQwNC45IDEyOC4zIDQwMi4xIDEyOS45IDQwMS4xIDEzMC42QzM5NS4yIDEzNS4yIDM5NC4yIDE0MC42IDM5NS4yIDE0NC4yQzM5Ni4xIDE0Ny40IDM5OC42IDE0OS42IDQwMS43IDE1MEM0MDIgMTUwIDQwMi40IDE1MC4xIDQwMi43IDE1MC4xQzQwNS4yIDE1MC4xIDQwOS4yIDE0OC45IDQxMi43IDE0Mi44TDQxOC43IDEzMi4xQzQyMS45IDEyOS45IDQyNS41IDEyNy41IDQyOSAxMjVDNDM4LjIgMTE4LjcgNDQ4LjEgMTExLjkgNDU1LjMgMTA2LjlDNDU2LjcgMTA4LjYgNDU4LjkgMTEwLjMgNDYyLjIgMTExLjRDNDYzLjkgMTExLjkgNDY1LjYgMTEyLjIgNDY3LjMgMTEyLjJDNDczLjkgMTEyLjIgNDgwLjUgMTA4LjcgNDg1LjYgMTA2LjFDNTAyLjUgOTcuMyA1MjMuOSA3OS40IDUzNy43IDY3LjdMNTI4LjEgODMuNUM1MjQuNSA5MCA1MjcuNCA5My40IDUyOC44IDk0LjZDNTMwLjEgOTUuNyA1MzEuNyA5Ni4zIDUzMy41IDk2LjNDNTM3LjUgOTYuMyA1NDIuOCA5My42IDU1MCA4Ny45QzU1NS45IDgzLjMgNTY5LjcgNzAgNTgxLjMgNTkuNkw1NzQuNSA3Mi4zQzU3MS41IDc3LjcgNTcyLjggODAuOSA1NzQuNSA4Mi43QzU3NiA4NC4zIDU3Ny44IDg1LjEgNTgwLjEgODUuMUM1ODMuOSA4NS4xIDU4OS4yIDgzLjEgNTk2LjkgNzkuNkM2MjYuOSA2Ni4xIDY4My4xIDI5LjggNjg1LjUgMjguM0w2NzguMiAxOS45Wk00ODQuNSA2OUM0ODcgNjcuMyA0OTAuMyA2Ni4zIDQ5MS4xIDY3LjRDNDkxLjkgNjguNSA0ODkuNSA3MC44IDQ4Ny4yIDcyLjVDNDg1LjQgNzMuOSA0NjcuNiA4Ni43IDQ2Ny42IDg2LjdDNDczLjQgNzcuOCA0ODEuOCA3MC45IDQ4NC41IDY5WiIgZmlsbD0iI0VEMjcyRSIvPgo8cGF0aCBkPSJNNjAzLjMgNS42TDU5My40IDBDNTc3LjYgMTQuOCA1NjguMSAzMS40IDU2Ny42IDMyLjJMNTc3LjIgMzcuNUM1NzcuMyAzNy4zIDU4Ny4zIDE5LjggNjAzLjMgNS42WiIgZmlsbD0iI0VEMjcyRSIvPgo8L3N2Zz4=" alt="Лицей"><span class="z5-header-note">предсказания<br>к кофе</span></header>
     <h1 class="z5-title">ЗАВАРИЛОСЬ</h1>
-    <div class="z5-tagline">кажется, это к хорошему</div>
+    <div class="z5-tagline">кажется, это к лучшему</div>
     <div class="z5-stage" aria-label="Живой коллаж с наполненной кружкой">
       <div class="z5-art">
-      <div class="z5-paper" aria-hidden="true"></div>
+      <div class="z5-paper" aria-hidden="true"><div class="z5-paper-layer"></div><div class="z5-paper-layer"></div></div>
       <figure class="z5-piece z5-photo" data-piece="photo"><div class="z5-wiggle"><img src="assets/photo.avif" alt="Гостья Лицея с кофе"></div></figure>
       <div class="z5-piece z5-tape" data-piece="tape" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/tape.avif" alt=""></div></div>
       <div class="z5-piece z5-spoon" data-piece="spoon" aria-hidden="true"><div class="z5-wiggle"><img class="z5-image" src="assets/spoon.avif" alt=""></div></div>
@@ -174,7 +197,7 @@
       </div></section>
     </div>
     <p class="z5-description">Какой сегодня будет день?</p>
-    <div class="z5-actions"><button class="z5-button z5-main" type="button">Перевернуть кружку</button><button class="z5-button z5-back" type="button" hidden>Назад</button></div>
+    <div class="z5-actions"><button class="z5-button z5-main" type="button">Перевернуть кружку</button></div>
     <p class="z5-status" role="status" aria-live="polite"></p>
   </article>
 </div>
@@ -183,8 +206,23 @@
   <a href="./">Попробовать снова</a>
 </div>
 <noscript><p class="z5-no-script">Включи JavaScript, чтобы открыть коллаж</p></noscript>
+<dialog class="z5-share" aria-labelledby="z5-share-title">
+  <div class="z5-share-top"><h2 id="z5-share-title">Поделиться знаком</h2><form method="dialog"><button aria-label="Закрыть" type="submit">×</button></form></div>
+  <img class="z5-share-preview" alt="Карточка с предсказанием" hidden>
+  <label for="z5-share-caption">Подпись к карточке</label>
+  <textarea id="z5-share-caption" rows="4" readonly></textarea>
+  <button class="z5-share-send" type="button" hidden>Отправить</button>
+  <div class="z5-share-controls">
+    <a class="z5-share-download" download="zavarilos.png" hidden>Скачать PNG</a>
+    <button class="z5-share-copy" type="button">Копировать подпись</button>
+    <button class="z5-share-retry" type="button" hidden>Повторить загрузку PNG</button>
+  </div>
+  <p>В Telegram прикрепи PNG и вставь текст в подпись к фото.</p>
+  <p class="z5-share-feedback" role="status"></p>
+</dialog>
 <script type="module">
 import { signs } from './assets/signs-v1.js?v=2';
+import { CARD_ASSET_FILES, newCardLayout, loadCardImages, paintCard, cardPng, shareCaption } from './assets/share-card-v1.js';
 
 const moscowDate = new Intl.DateTimeFormat('ru-RU', {
   timeZone: 'Europe/Moscow',
@@ -206,39 +244,11 @@ function getPersonalSeed() {
   return seed;
 }
 
-function shuffleSigns() {
-  const deck = signs.slice();
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
-  }
-  return deck;
-}
-
-function createSignDrawer() {
-  const seed = getPersonalSeed();
-  let lastDay;
-  let previousSign;
-  let deck = [];
-
-  return () => {
-    const date = Object.fromEntries(moscowDate.formatToParts(new Date()).map(({ type, value }) => [type, value]));
-    const day = Date.UTC(+date.year, +date.month - 1, +date.day) / dayInMilliseconds;
-
-    if (day !== lastDay) {
-      lastDay = day;
-      const dailySign = signs[(seed + day) % signs.length];
-      deck = shuffleSigns().filter(sign => sign !== dailySign);
-      deck.push(dailySign);
-    } else if (deck.length === 0) {
-      deck = shuffleSigns();
-      const last = deck.length - 1;
-      if (last > 0 && deck[last] === previousSign) [deck[last], deck[0]] = [deck[0], deck[last]];
-    }
-
-    previousSign = deck.pop();
-    return { sign: previousSign, date: date.day + '.' + date.month };
-  };
+function dailySign(seed) {
+  const date = Object.fromEntries(moscowDate.formatToParts(new Date()).map(({ type, value }) => [type, value]));
+  const day = Date.UTC(+date.year,+date.month-1,+date.day) / dayInMilliseconds;
+  const [title,text,stamp] = signs[(seed + day) % signs.length];
+  return {title,text,stamp,date:date.day + '.' + date.month};
 }
 
 (() => {
@@ -246,21 +256,21 @@ function createSignDrawer() {
   const screen=root.querySelector('.z5-screen'), stage=root.querySelector('.z5-stage');
   const art=root.querySelector('.z5-art');
   const cup=root.querySelector('.z5-cup'), cupFrame=root.querySelector('.z5-cup-frame');
-  const result=root.querySelector('.z5-result'), main=root.querySelector('.z5-main'), back=root.querySelector('.z5-back');
+  const result=root.querySelector('.z5-result'), main=root.querySelector('.z5-main');
   const description=root.querySelector('.z5-description'), status=root.querySelector('.z5-status');
   const signTitle = result.querySelector('.z5-sign-title');
   const signText = result.querySelector('.z5-sign-text');
   const signStamp = result.querySelector('.z5-stamp');
   const signDate = result.querySelector('.z5-date');
-  const drawSign = createSignDrawer();
+  const seed = getPersonalSeed();
   const extras=Array.from(root.querySelectorAll('.z5-extra'));
   const pieces=Object.fromEntries(Array.from(root.querySelectorAll('[data-piece]')).map(el=>[el.dataset.piece,el]));
   const reduced=window.matchMedia('(prefers-reduced-motion:reduce)');
   let view='hero';
-  let spread=view==='result'?1:0, cycle=0, frameIndex=0, timers=[];
+  let spread=0, frameIndex=0;
+  let currentSign, shareFile, shareAssets, shareOpen = false;
   const mix=(a,b)=>a+(b-a)*spread, clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  function later(fn,ms){timers.push(setTimeout(fn,ms));}
-  function clearTimers(){timers.forEach(clearTimeout);timers=[];}
+
   function layout(){
     const W=stage.clientWidth, pad=parseFloat(getComputedStyle(screen).paddingLeft), heroH=Math.max(370,W*1.14), openH=heroH+Math.max(128,W*.35+50), H=mix(heroH,openH);
     // Fit the animated artwork inside an independent, fixed-height slot.
@@ -282,8 +292,8 @@ function createSignDrawer() {
     const tapeWidth = ph.w * .59;
     const tapeHeight = tapeWidth / 2.2;
     // Anchor the tape to the tilted upper-right corner as the photo moves.
-    const offsetX = ph.w * .38;
-    const offsetY = -ph.h * .44;
+    const offsetX = ph.w * .435;
+    const offsetY = -ph.h * .48;
     const tapeCenterX = ph.x + ph.w / 2 + offsetX * Math.cos(photoRotation) - offsetY * Math.sin(photoRotation);
     const tapeCenterY = ph.y + ph.h / 2 + offsetX * Math.sin(photoRotation) + offsetY * Math.cos(photoRotation);
     place(pieces.tape,tapeCenterX-tapeWidth/2,tapeCenterY-tapeHeight/2,tapeWidth,tapeHeight,photoAngle+48,1.9);
@@ -314,17 +324,18 @@ function createSignDrawer() {
   function setSpread(value){spread=value;layout();}
   function frame(index){frameIndex=index;cupFrame.dataset.cupFrame=String(index);cupFrame.style.backgroundPosition=(index%4*100/3)+'% '+Math.floor(index/4)*50+'%';screen.dataset.pouring=String(view==='animating'&&index>=2&&index<=4);layout();}
   function hideExtras(){extras.forEach(el=>{el.dataset.active='false';delete el.dataset.pop;});}
-  function selectExtras(){hideExtras();const pairs=[['beans','checks'],['coffeeStamp','beans'],['checks','coffeeStamp']];return pairs[cycle++%pairs.length].map(name=>pieces[name]);}
-  function showExtra(el,delay){later(()=>{el.dataset.active='true';el.dataset.pop='0';},delay);later(()=>{el.dataset.pop='1';},delay+85);later(()=>{el.dataset.pop='2';},delay+175);}
-  function renderStable(){screen.dataset.view=view;screen.dataset.busy='false';main.disabled=false;back.disabled=false;main.setAttribute('aria-busy','false');result.hidden=view!=='result';back.hidden=view!=='result';main.textContent=view==='result'?'Другой знак':'Перевернуть кружку';description.textContent=view==='result'?'Пусть так и будет':'Какой сегодня будет день?';delete result.dataset.pop;setSpread(view==='result'?1:0);frame(view==='result'?11:0);if(view==='hero')hideExtras();}
+  function selectExtras(){hideExtras();const pairs=[['beans','checks'],['coffeeStamp','beans'],['checks','coffeeStamp']];return pairs[seed%pairs.length].map(name=>pieces[name]);}
+  function showExtra(el,delay){setTimeout(()=>{el.dataset.active='true';el.dataset.pop='0';},delay);setTimeout(()=>{el.dataset.pop='1';},delay+85);setTimeout(()=>{el.dataset.pop='2';},delay+175);}
+  function renderStable(){screen.dataset.view=view;screen.dataset.busy='false';main.disabled=false;main.setAttribute('aria-busy','false');result.hidden=view!=='result';main.textContent=view==='result'?'Поделиться':'Перевернуть кружку';description.textContent=view==='result'?'Пусть так и будет':'Какой сегодня будет день?';delete result.dataset.pop;setSpread(view==='result'?1:0);frame(view==='result'?11:0);if(view==='hero')hideExtras();}
   function finish(announcement) {
     view = 'result';
     renderStable();
     status.textContent = announcement;
+    prepareShare();
   }
   function turn(){
-    clearTimers();
-    const { sign: [title, text, stamp], date } = drawSign();
+    currentSign = dailySign(seed);
+    const {title,text,stamp,date} = currentSign;
     signTitle.textContent = title.toLocaleUpperCase('ru-RU');
     signText.textContent = text;
     signStamp.textContent = stamp.toLocaleUpperCase('ru-RU');
@@ -336,17 +347,97 @@ function createSignDrawer() {
       finish(announcement);
       return;
     }
-    view='animating';screen.dataset.view='clearing';screen.dataset.busy='true';main.disabled=true;back.disabled=true;main.setAttribute('aria-busy','true');result.hidden=true;hideExtras();frame(0);setSpread(0);description.textContent='Сейчас всё выясним';status.textContent='Кружка переворачивается.';
-    [.18,.43,.72,1].forEach((v,i)=>later(()=>setSpread(v),i*150));
+    view='animating';screen.dataset.view='clearing';screen.dataset.busy='true';main.disabled=true;main.setAttribute('aria-busy','true');result.hidden=true;hideExtras();frame(0);setSpread(0);description.textContent='Сейчас всё выясним';status.textContent='Кружка переворачивается.';
+    [.18,.43,.72,1].forEach((v,i)=>setTimeout(()=>setSpread(v),i*150));
     selectExtras().forEach((el,i)=>showExtra(el,180+i*160));
-    later(()=>{screen.dataset.view='turning';},620);
-    for(let i=0;i<12;i++)later(()=>frame(i),620+i*115);
-    later(()=>{screen.dataset.view='revealing';screen.dataset.pouring='false';result.hidden=false;layout();result.dataset.pop='0';},2100);
-    later(()=>{result.dataset.pop='1';},2250);later(()=>{result.dataset.pop='2';},2400);later(()=>finish(announcement),2550);
+    setTimeout(()=>{screen.dataset.view='turning';},620);
+    for(let i=0;i<12;i++)setTimeout(()=>frame(i),620+i*115);
+    setTimeout(()=>{screen.dataset.view='revealing';screen.dataset.pouring='false';result.hidden=false;layout();result.dataset.pop='0';},2100);
+    setTimeout(()=>{result.dataset.pop='1';},2250);setTimeout(()=>{result.dataset.pop='2';},2400);setTimeout(()=>finish(announcement),2550);
   }
-  function reset(callback){clearTimers();view='returning';screen.dataset.view='returning';screen.dataset.busy='true';result.hidden=true;main.disabled=true;back.disabled=true;frame(0);hideExtras();if(reduced.matches){view='hero';renderStable();callback?.();return;}[.72,.43,.18,0].forEach((v,i)=>later(()=>setSpread(v),i*140));later(()=>{view='hero';renderStable();status.textContent='';callback?.();},580);}
-  main.addEventListener('click',()=>{if(view==='result')reset(turn);else turn();});
-  back.addEventListener('click',()=>reset());
+  const shareDialog = document.querySelector('.z5-share');
+  const sharePreview = shareDialog.querySelector('.z5-share-preview');
+  const shareDownload = shareDialog.querySelector('.z5-share-download');
+  const shareCopy = shareDialog.querySelector('.z5-share-copy');
+  const shareRetry = shareDialog.querySelector('.z5-share-retry');
+  const shareSend = shareDialog.querySelector('.z5-share-send');
+  const shareText = shareDialog.querySelector('textarea');
+  const shareFeedback = shareDialog.querySelector('.z5-share-feedback');
+
+  function loadShareAssets() {
+    const urls = Object.fromEntries(Object.entries(CARD_ASSET_FILES).map(([key,file]) => [key,new URL('./assets/'+file,location.href).href]));
+    urls.logo = root.querySelector('.z5-logo').src;
+    return loadCardImages(urls);
+  }
+
+  async function prepareShare() {
+    main.disabled = true;
+    main.setAttribute('aria-busy','true');
+    shareRetry.hidden = true;
+    try {
+      shareAssets ??= loadShareAssets();
+      const images = await shareAssets;
+      const layout = newCardLayout();
+      for (const id of ['beans','checks','coffeeStamp']) {
+        layout.layers.find(layer => layer.id === id).visible = pieces[id].dataset.active === 'true';
+      }
+      if (layout.layers.some(layer => CARD_ASSET_FILES[layer.id] && layer.visible && !images[layer.id]) || !images.logo) {
+        throw new Error('Missing card images');
+      }
+      const canvas = document.createElement('canvas');
+      paintCard(canvas,layout,{
+        ...currentSign,title:signTitle.textContent,stamp:signStamp.textContent
+      },images);
+      const blob = await cardPng(canvas);
+      shareFile = new File([blob],'zavarilos.png',{type:'image/png'});
+      const url = URL.createObjectURL(shareFile);
+      shareDownload.href = url;
+      sharePreview.src = url;
+      shareDownload.hidden = sharePreview.hidden = false;
+      shareSend.hidden = !navigator.canShare?.(shareData());
+      shareFeedback.textContent = '';
+    } catch {
+      shareAssets = undefined;
+      shareRetry.hidden = false;
+      shareFeedback.textContent = 'Карточка пока недоступна. Можно повторить загрузку или скопировать подпись.';
+    } finally {
+      main.disabled = false;
+      main.setAttribute('aria-busy','false');
+    }
+  }
+
+  function shareData() {
+    // Put the URL inside the caption so the share target receives one file and one text item.
+    return {files:[shareFile],text:shareCaption(currentSign)};
+  }
+  function openShare() {
+    shareText.value = shareCaption(currentSign);
+    shareDialog.showModal();
+  }
+  shareSend.addEventListener('click',async () => {
+    if (shareOpen) return;
+    shareOpen = true;
+    try {
+      await navigator.share(shareData());
+      shareDialog.close();
+    } catch (error) {
+      if (error.name !== 'AbortError') shareFeedback.textContent = 'Можно скачать PNG и скопировать подпись.';
+    } finally {
+      shareOpen = false;
+    }
+  });
+  main.addEventListener('click',() => { if (view === 'result') openShare(); else if (view === 'hero') turn(); });
+  shareRetry.addEventListener('click',prepareShare);
+  shareCopy.addEventListener('click',async () => {
+    try {
+      await navigator.clipboard.writeText(shareText.value);
+      shareFeedback.textContent = 'Подпись скопирована';
+    } catch {
+      shareText.focus();
+      shareText.select();
+      shareFeedback.textContent = 'Подпись выделена для копирования';
+    }
+  });
   const page = document.documentElement;
   const viewport = window.visualViewport;
   let viewportFrame;
@@ -387,12 +478,22 @@ function createSignDrawer() {
       document.fonts.load('700 54px "ZV Condensed"', 'ЗАВАРИЛОСЬ'),
     ]);
     try {
-      await Promise.all([fonts, ...[...root.querySelectorAll('img'), sprite].map(image => image.decode())]);
-      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const plates = ['plate-blot.svg','plate-soft.svg'].map(file => {
+        const asset = new Image();
+        asset.src = './assets/' + file;
+        return asset;
+      });
+      const fontDeadline = new Promise(resolve => setTimeout(resolve,3000));
+      await Promise.all([Promise.race([fonts,fontDeadline]), ...[...root.querySelectorAll('img'),sprite,...plates].map(image => image.decode())]);
+      await new Promise(resolve => {
+        const deadline = setTimeout(resolve,180);
+        requestAnimationFrame(() => requestAnimationFrame(() => {clearTimeout(deadline);resolve();}));
+      });
       fitViewport();
       renderStable();
       root.inert = false;
       page.dataset.loadState = 'ready';
+      shareAssets ??= loadShareAssets();
     } catch {
       page.dataset.loadState = 'error';
     } finally {
