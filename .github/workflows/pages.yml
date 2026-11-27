@@ -38,7 +38,9 @@ jobs:
           test -s public/fonts/visuelt-light-3006.woff2
           test -s public/fonts/visuelt-regular-3006.woff2
       - name: Refresh shared prediction pages
-        run: node scripts/build-share-pages.cjs
+        run: |
+          node scripts/build-share-pages.cjs
+          node scripts/build-winter.cjs
       - uses: actions/upload-pages-artifact@v4
         with:
           path: public
