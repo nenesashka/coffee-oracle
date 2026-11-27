@@ -9,6 +9,8 @@
 <title>Заварилось · Лицей</title>
 <link rel="icon" href="../icon.svg" type="image/svg+xml">
 <link rel="preload" as="image" href="assets/cup-frames.avif" id="z5-cup-source">
+<link rel="preload" as="font" type="font/woff2" href="assets/oswald-condensed.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../fonts/visuelt-regular-3006.woff2" crossorigin>
 <style>
   html { margin:0; overflow:hidden; overflow:clip; overscroll-behavior:none; background:#ed272e; }
   body {
@@ -162,7 +164,6 @@
   .z5-share textarea {box-sizing:border-box;width:100%;padding:8px;font:inherit;color:inherit;
     background:#fff9ee;border:1px solid #191919;resize:vertical;}
   .z5-share-controls {display:flex;gap:8px;flex-wrap:wrap;margin-top:7px;}
-  .z5-share-send {width:100%;margin-top:8px;background:#191919!important;color:#fff0d4!important;}
   .z5-share p {margin:7px 0 0;}
   .z5-share [hidden] {display:none!important;}
   @media(prefers-reduced-motion:reduce) { #zavarilos-stop-motion-v6 .z5-screen * { animation:none!important; } }
@@ -211,7 +212,6 @@
   <img class="z5-share-preview" alt="Карточка с предсказанием" hidden>
   <label for="z5-share-caption">Подпись к карточке</label>
   <textarea id="z5-share-caption" rows="4" readonly></textarea>
-  <button class="z5-share-send" type="button" hidden>Отправить</button>
   <div class="z5-share-controls">
     <a class="z5-share-download" download="zavarilos.png" hidden>Скачать PNG</a>
     <button class="z5-share-copy" type="button">Копировать подпись</button>
@@ -222,7 +222,7 @@
 </dialog>
 <script type="module">
 import { signs } from './assets/signs-v1.js?v=2';
-import { CARD_ASSET_FILES, newCardLayout, loadCardImages, paintCard, cardPng, shareCaption } from './assets/share-card-v1.js';
+import { CARD_ASSET_FILES, newCardLayout, loadCardImages, paintCard, cardPng, shareCaption, shareCaptionHtml } from './assets/share-card-v1.js?v=2';
 
 const moscowDate = new Intl.DateTimeFormat('ru-RU', {
   timeZone: 'Europe/Moscow',
@@ -268,7 +268,7 @@ function dailySign(seed) {
   const reduced=window.matchMedia('(prefers-reduced-motion:reduce)');
   let view='hero';
   let spread=0, frameIndex=0;
-  let currentSign, shareFile, shareAssets, shareOpen = false;
+  let currentSign, sharePayload, shareAssets, shareOpen = false;
   const mix=(a,b)=>a+(b-a)*spread, clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
   function layout(){
@@ -279,9 +279,11 @@ function dailySign(seed) {
     const offset=(availableHeight-H*scale)/2;
     art.style.height=H+'px';
     art.style.transform='translateY('+offset+'px) scale('+scale+')';
-    function place(el,x,y,w,h,angle=0,duration=1.7){
-      const radians=(Math.abs(angle)+2)*Math.PI/180, ex=(w*Math.cos(radians)+h*Math.sin(radians)-w)/2+4, ey=(h*Math.cos(radians)+w*Math.sin(radians)-h)/2+4;
-      x=clamp(x,8-pad+Math.max(0,ex),W+pad-8-w-Math.max(0,ex));y=clamp(y,8+Math.max(0,ey),H-h-8-Math.max(0,ey));
+    function place(el,x,y,w,h,angle=0,duration=1.7,constrain=true){
+      if (constrain) {
+        const radians=(Math.abs(angle)+2)*Math.PI/180, ex=(w*Math.cos(radians)+h*Math.sin(radians)-w)/2+4, ey=(h*Math.cos(radians)+w*Math.sin(radians)-h)/2+4;
+        x=clamp(x,8-pad+Math.max(0,ex),W+pad-8-w-Math.max(0,ex));y=clamp(y,8+Math.max(0,ey),H-h-8-Math.max(0,ey));
+      }
       Object.assign(el.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});
       const wiggle=el.querySelector('.z5-wiggle');if(wiggle){wiggle.style.setProperty('--z5-angle',angle+'deg');wiggle.style.setProperty('--z5-duration',duration+'s');}
       return{x,y,w,h};
@@ -291,12 +293,12 @@ function dailySign(seed) {
     const photoRotation = photoAngle * Math.PI / 180;
     const tapeWidth = ph.w * .59;
     const tapeHeight = tapeWidth / 2.2;
-    // Anchor the tape to the tilted upper-right corner as the photo moves.
-    const offsetX = ph.w * .435;
-    const offsetY = -ph.h * .48;
-    const tapeCenterX = ph.x + ph.w / 2 + offsetX * Math.cos(photoRotation) - offsetY * Math.sin(photoRotation);
-    const tapeCenterY = ph.y + ph.h / 2 + offsetX * Math.sin(photoRotation) + offsetY * Math.cos(photoRotation);
-    place(pieces.tape,tapeCenterX-tapeWidth/2,tapeCenterY-tapeHeight/2,tapeWidth,tapeHeight,photoAngle+48,1.9);
+    // The tape straddles the rotated top-right corner and can overhang the artwork slot.
+    const cornerX = ph.x + ph.w/2 + ph.w/2*Math.cos(photoRotation) + ph.h/2*Math.sin(photoRotation);
+    const cornerY = ph.y + ph.h/2 + ph.w/2*Math.sin(photoRotation) - ph.h/2*Math.cos(photoRotation);
+    const tapeCenterX = cornerX - ph.w*.035;
+    const tapeCenterY = cornerY + ph.w*.12;
+    place(pieces.tape,tapeCenterX-tapeWidth/2,tapeCenterY-tapeHeight/2,tapeWidth,tapeHeight,photoAngle+48,1.9,false);
     place(pieces.spoon,mix(W*.55,W*.63),mix(heroH*.035,0),W*.40,W*.40/.93,-8,1.45);
     const eyeWidth = W * .30;
     const eyeHeight = eyeWidth / 1.44;
@@ -360,7 +362,6 @@ function dailySign(seed) {
   const shareDownload = shareDialog.querySelector('.z5-share-download');
   const shareCopy = shareDialog.querySelector('.z5-share-copy');
   const shareRetry = shareDialog.querySelector('.z5-share-retry');
-  const shareSend = shareDialog.querySelector('.z5-share-send');
   const shareText = shareDialog.querySelector('textarea');
   const shareFeedback = shareDialog.querySelector('.z5-share-feedback');
 
@@ -376,11 +377,15 @@ function dailySign(seed) {
     shareRetry.hidden = true;
     try {
       shareAssets ??= loadShareAssets();
-      const images = await shareAssets;
+      const cardFonts = Promise.allSettled([
+        document.fonts.load('700 120px "ZV Condensed"','ЗАВАРИЛОСЬ ' + currentSign.title + ' ' + currentSign.stamp),
+        document.fonts.load('400 40px "Visuelt Pro"',currentSign.text),
+      ]);
+      const [images] = await Promise.all([
+        shareAssets,
+        Promise.race([cardFonts,new Promise(resolve => setTimeout(resolve,3000))]),
+      ]);
       const layout = newCardLayout();
-      for (const id of ['beans','checks','coffeeStamp']) {
-        layout.layers.find(layer => layer.id === id).visible = pieces[id].dataset.active === 'true';
-      }
       if (layout.layers.some(layer => CARD_ASSET_FILES[layer.id] && layer.visible && !images[layer.id]) || !images.logo) {
         throw new Error('Missing card images');
       }
@@ -389,12 +394,12 @@ function dailySign(seed) {
         ...currentSign,title:signTitle.textContent,stamp:signStamp.textContent
       },images);
       const blob = await cardPng(canvas);
-      shareFile = new File([blob],'zavarilos.png',{type:'image/png'});
-      const url = URL.createObjectURL(shareFile);
+      const file = new File([blob],'zavarilos.png',{type:'image/png'});
+      sharePayload = {files:[file],text:shareCaption(currentSign)};
+      const url = URL.createObjectURL(file);
       shareDownload.href = url;
       sharePreview.src = url;
       shareDownload.hidden = sharePreview.hidden = false;
-      shareSend.hidden = !navigator.canShare?.(shareData());
       shareFeedback.textContent = '';
     } catch {
       shareAssets = undefined;
@@ -406,36 +411,48 @@ function dailySign(seed) {
     }
   }
 
-  function shareData() {
-    // Put the URL inside the caption so the share target receives one file and one text item.
-    return {files:[shareFile],text:shareCaption(currentSign)};
-  }
-  function openShare() {
+  function showShareFallback() {
     shareText.value = shareCaption(currentSign);
     shareDialog.showModal();
   }
-  shareSend.addEventListener('click',async () => {
+  async function openShare() {
     if (shareOpen) return;
+    if (!sharePayload || typeof navigator.share !== 'function') {
+      showShareFallback();
+      return;
+    }
     shareOpen = true;
     try {
-      await navigator.share(shareData());
-      shareDialog.close();
+      if (navigator.canShare?.(sharePayload) === false) {
+        showShareFallback();
+        return;
+      }
+      await navigator.share(sharePayload);
     } catch (error) {
-      if (error.name !== 'AbortError') shareFeedback.textContent = 'Можно скачать PNG и скопировать подпись.';
+      if (error.name !== 'AbortError') showShareFallback();
     } finally {
       shareOpen = false;
     }
-  });
+  }
   main.addEventListener('click',() => { if (view === 'result') openShare(); else if (view === 'hero') turn(); });
   shareRetry.addEventListener('click',prepareShare);
   shareCopy.addEventListener('click',async () => {
     try {
-      await navigator.clipboard.writeText(shareText.value);
+      const item = new ClipboardItem({
+        'text/plain':new Blob([shareText.value],{type:'text/plain'}),
+        'text/html':new Blob([shareCaptionHtml(currentSign)],{type:'text/html'}),
+      });
+      await navigator.clipboard.write([item]);
       shareFeedback.textContent = 'Подпись скопирована';
     } catch {
-      shareText.focus();
-      shareText.select();
-      shareFeedback.textContent = 'Подпись выделена для копирования';
+      try {
+        await navigator.clipboard.writeText(shareText.value);
+        shareFeedback.textContent = 'Подпись скопирована';
+      } catch {
+        shareText.focus();
+        shareText.select();
+        shareFeedback.textContent = 'Подпись выделена для копирования';
+      }
     }
   });
   const page = document.documentElement;

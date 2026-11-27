@@ -40,12 +40,49 @@ export const CARD_ELEMENTS = {
   link: {label:'Адрес сайта',kind:'text',x:50,y:94,size:58,angle:0,color:'#fff0d4',fontRatio:.036,text:'nenesashka.github.io/coffee-oracle/zavarilos/'},
 };
 
+// Approved portrait composition, back to front, in the editor's coordinates.
+const portraitLayers = [
+  ['blot',45.6,63.4,131,-12,false],
+  ['soft',47.9,55.3,89,-4,true],
+  ['photo',11.9,35.9,25,-10,true],
+  ['tape',19.3,24.2,15,39,true],
+  ['spoon',76.8,30.2,27,-11,true],
+  ['seal',59.5,31.3,18,10,true],
+  ['cup',53.9,51.9,52,-2,true],
+  ['eye',94.5,37.2,19,8,true],
+  ['danish',7.9,61.6,22,-11,true],
+  ['croissant',87.6,56.1,26,11,true],
+  ['beans',12,64,10,-12,false],
+  ['arrow',24,54,19,-13,true],
+  ['checks',88,24,13,11,false],
+  ['coffeeStamp',89,91,12,-9,false],
+  ['logo',36.3,35.2,19,0,true],
+  ['headerNote',83.3,4.3,26,0,false],
+  ['heading',50.2,11.7,97,0,true],
+  ['tagline',47.1,19.7,46,-3,false],
+  ['receipt',49.8,78.5,86,-2.5,true],
+  ['meta',46.4,66.7,69,-2.5,true],
+  ['date',79.8,65.3,13,-2.5,true],
+  ['title',49.1,73.4,74,-2.5,true],
+  ['text',49.4,80.5,74,-2.5,true],
+  ['stamp',73.4,86.7,36,-8,true],
+  ['link',50,94,58,0,false],
+];
+
 function makeLayer(id, settings) {
   const {x,y,size,angle,color,visible = true} = settings;
   return {id,x,y,size,angle,visible,...(color ? {color} : {})};
 }
 
 export function newCardLayout(format = 'portrait') {
+  if (format === 'portrait') {
+    return {
+      version:1,format,background:'#ed272e',
+      layers:portraitLayers.map(([id,x,y,size,angle,visible]) => makeLayer(id,{
+        ...CARD_ELEMENTS[id],x,y,size,angle,visible
+      })),
+    };
+  }
   return {
     version:1, format, background:'#ed272e',
     layers:Object.entries(CARD_ELEMENTS).map(([id, settings]) => {
@@ -151,10 +188,11 @@ function measureTextBlock(ctx,text,settings,width,height,faces) {
   let lines;
   for (let iteration = 0; iteration < 12; iteration++) {
     ctx.font = (condensed ? '700 ' : '400 ') + fontSize + 'px ' + (condensed ? faces.display : faces.body);
-    lines = settings.kind === 'headline' ? [text.replace(/\s+/g,' ')] : linesFor(ctx,text,width);
+    const singleLine = settings.kind === 'headline' || settings.kind === 'stamp';
+    lines = singleLine ? [text.replace(/\s+/g,' ')] : linesFor(ctx,text,width);
     const measure = Math.max(...lines.map(line => ctx.measureText(line).width));
-    if (measure <= width && lines.length * fontSize * lineHeight <= height) break;
-    fontSize *= .88;
+    if (measure <= width && lines.length * fontSize * lineHeight <= height && lines.length <= (settings.maxLines ?? Infinity)) break;
+    fontSize *= settings.maxLines ? .95 : .88;
   }
   return {font:ctx.font,lines,line:fontSize*lineHeight,height:fontSize*lineHeight*lines.length};
 }
@@ -220,8 +258,11 @@ export function paintCard(canvas,layout,sign,images,faces = {display:'"ZV Conden
       ctx.fillStyle = stamp ? color : '#191919';
       drawLines(ctx,textBlock,w,'center');
     } else if (['text','headline','meta'].includes(kind)) {
+      const compactCaption = layout.format === 'portrait' && layer.id === 'text';
       const style = {...settings,fontRatio:settings.fontRatio ?? .027};
-      const limit = w*(layer.id === 'text' ? .205 : layer.id === 'title' ? .185 : .28)*stretch;
+      if (compactCaption) style.maxLines = Math.max(1,Math.round(2*stretch));
+      const heightRatio = compactCaption ? .094 : layer.id === 'text' ? .205 : layer.id === 'title' ? .185 : .28;
+      const limit = w*heightRatio*stretch;
       const textBlock = measureTextBlock(ctx,value,style,w,limit,faces);
       h = textBlock.height;
       drawLines(ctx,textBlock,w,settings.align ?? (kind === 'meta' ? 'left' : 'center'));
@@ -294,6 +335,19 @@ export function cardPng(canvas) {
   });
 }
 
+const shareInvitation = 'Посмотри, что заварится у тебя!';
+
+function shareIntro(sign) {
+  const title = sign.title;
+  const clause = title.startsWith('К ') ? 'к ' + title.slice(2) : '«' + title + '»';
+  return 'У меня заварилось предсказание ' + clause + ' :)';
+}
+
 export function shareCaption(sign) {
-  return 'Мне заварилось: «' + sign.title + '»\n' + sign.text + '\n\nКакой знак выпадет тебе?\n' + CARD_URL;
+  return shareIntro(sign) + ' ' + shareInvitation + '\n' + CARD_URL;
+}
+
+export function shareCaptionHtml(sign) {
+  const intro = shareIntro(sign).replace(/[&<>]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[char]));
+  return '<p>' + intro + ' <a href="' + CARD_URL + '">' + shareInvitation + '</a></p>';
 }
