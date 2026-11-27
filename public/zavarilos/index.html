@@ -210,6 +210,7 @@
     background:#fff9ee;border:1px solid #191919;resize:vertical;}
   .z5-share-controls {display:flex;gap:8px;flex-wrap:wrap;margin-top:7px;}
   .z5-share p {margin:7px 0 0;}
+  .z5-card-options {background:none;border:0;color:inherit;font:inherit;text-decoration:underline;cursor:pointer;flex:0 0 115px;padding:0 4px;font-size:14px;}
   .z5-share [hidden] {display:none!important;}
   @media(prefers-reduced-motion:reduce) { #zavarilos-stop-motion-v6 .z5-screen * { animation:none!important; } }
 </style>
@@ -243,7 +244,7 @@
       </div></section>
     </div>
     <p class="z5-description">Какой сегодня будет день?</p>
-    <div class="z5-actions"><button class="z5-button z5-main" type="button">Перевернуть кружку</button></div>
+    <div class="z5-actions"><button class="z5-button z5-main" type="button">Перевернуть кружку</button><button class="z5-card-options" type="button" hidden>Картинка и подпись</button></div>
     <p class="z5-status" role="status" aria-live="polite"></p>
   </article>
 </div>
@@ -265,6 +266,7 @@
   <textarea id="z5-share-caption" rows="4" readonly></textarea>
   <div class="z5-share-controls">
     <a class="z5-share-download" download="zavarilos.png" hidden>Скачать PNG</a>
+    <button class="z5-share-file" type="button" hidden>Отправить PNG</button>
     <button class="z5-share-copy" type="button">Копировать подпись</button>
     <button class="z5-share-retry" type="button" hidden>Повторить загрузку PNG</button>
   </div>
@@ -273,7 +275,7 @@
 </dialog>
 <script type="module">
 import { signs } from './assets/signs-v1.js?v=2';
-import { CARD_ASSET_FILES, newCardLayout, loadCardImages, paintCard, cardPng, shareCaption, shareCaptionHtml } from './assets/share-card-v1.js?v=2';
+import { CARD_ASSET_FILES, newCardLayout, loadCardImages, paintCard, cardPng, shareCaption, shareCaptionHtml, shareUrl } from './assets/share-card-v1.js?v=3';
 
 const moscowDate = new Intl.DateTimeFormat('ru-RU', {
   timeZone: 'Europe/Moscow',
@@ -384,6 +386,7 @@ function dailySign(seed) {
     view = 'result';
     renderStable();
     status.textContent = announcement;
+    cardOptions.hidden = false;
     prepareShare();
   }
   function turn(){
@@ -412,6 +415,8 @@ function dailySign(seed) {
   const sharePreview = shareDialog.querySelector('.z5-share-preview');
   const shareDownload = shareDialog.querySelector('.z5-share-download');
   const shareCopy = shareDialog.querySelector('.z5-share-copy');
+  const shareFileButton = shareDialog.querySelector('.z5-share-file');
+  const cardOptions = root.querySelector('.z5-card-options');
   const shareRetry = shareDialog.querySelector('.z5-share-retry');
   const shareText = shareDialog.querySelector('textarea');
   const shareFeedback = shareDialog.querySelector('.z5-share-feedback');
@@ -423,8 +428,6 @@ function dailySign(seed) {
   }
 
   async function prepareShare() {
-    main.disabled = true;
-    main.setAttribute('aria-busy','true');
     shareRetry.hidden = true;
     try {
       shareAssets ??= loadShareAssets();
@@ -450,15 +453,12 @@ function dailySign(seed) {
       const url = URL.createObjectURL(file);
       shareDownload.href = url;
       sharePreview.src = url;
-      shareDownload.hidden = sharePreview.hidden = false;
+      shareDownload.hidden = sharePreview.hidden = shareFileButton.hidden = false;
       shareFeedback.textContent = '';
     } catch {
       shareAssets = undefined;
       shareRetry.hidden = false;
       shareFeedback.textContent = 'Карточка пока недоступна. Можно повторить загрузку или скопировать подпись.';
-    } finally {
-      main.disabled = false;
-      main.setAttribute('aria-busy','false');
     }
   }
 
@@ -468,17 +468,18 @@ function dailySign(seed) {
   }
   async function openShare() {
     if (shareOpen) return;
-    if (!sharePayload || typeof navigator.share !== 'function') {
+    if (typeof navigator.share !== 'function') {
       showShareFallback();
       return;
     }
     shareOpen = true;
     try {
-      if (navigator.canShare?.(sharePayload) === false) {
+      const link = {url:shareUrl(currentSign)};
+      if (navigator.canShare?.(link) === false) {
         showShareFallback();
         return;
       }
-      await navigator.share(sharePayload);
+      await navigator.share(link);
     } catch (error) {
       if (error.name !== 'AbortError') showShareFallback();
     } finally {
@@ -486,6 +487,19 @@ function dailySign(seed) {
     }
   }
   main.addEventListener('click',() => { if (view === 'result') openShare(); else if (view === 'hero') turn(); });
+  cardOptions.addEventListener('click',showShareFallback);
+  shareFileButton.addEventListener('click',async () => {
+    if (shareOpen || !sharePayload) return;
+    if (!navigator.share || navigator.canShare?.(sharePayload) === false) {
+      shareFeedback.textContent = 'Скачай PNG и прикрепи его к сообщению.';
+      return;
+    }
+    shareOpen = true;
+    try { await navigator.share(sharePayload); }
+    catch (error) {
+      if (error.name !== 'AbortError') shareFeedback.textContent = 'Скачай PNG и прикрепи его к сообщению.';
+    } finally { shareOpen = false; }
+  });
   shareRetry.addEventListener('click',prepareShare);
   shareCopy.addEventListener('click',async () => {
     try {

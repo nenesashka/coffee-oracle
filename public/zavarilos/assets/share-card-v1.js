@@ -1,3 +1,5 @@
+import { signs } from './signs-v1.js?v=2';
+
 export const CARD_URL = 'https://nenesashka.github.io/coffee-oracle/zavarilos/';
 export const CARD_FORMATS = {
   portrait: [1080, 1350],
@@ -335,7 +337,7 @@ export function cardPng(canvas) {
   });
 }
 
-const shareInvitation = 'Посмотри, что заварится у тебя!';
+const shareInvitation = 'Жми, чтобы узнать, что заварится у тебя!';
 
 function shareIntro(sign) {
   const title = sign.title;
@@ -343,11 +345,21 @@ function shareIntro(sign) {
   return 'У меня заварилось предсказание ' + clause + ' :)';
 }
 
+export function shareTitle(sign) {
+  return shareIntro(sign) + ' ' + shareInvitation;
+}
+
+export function shareUrl(sign) {
+  const index = signs.findIndex(([title]) => title === sign.title);
+  if (index < 0) return CARD_URL;
+  return CARD_URL + 's/v1-' + String(index + 1).padStart(2,'0') + '/';
+}
+
 export function shareCaption(sign) {
-  return shareIntro(sign) + ' ' + shareInvitation + '\n' + CARD_URL;
+  return shareTitle(sign) + '\n' + shareUrl(sign);
 }
 
 export function shareCaptionHtml(sign) {
   const intro = shareIntro(sign).replace(/[&<>]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[char]));
-  return '<p>' + intro + ' <a href="' + CARD_URL + '">' + shareInvitation + '</a></p>';
+  return '<p>' + intro + ' <a href="' + shareUrl(sign) + '">' + shareInvitation + '</a></p>';
 }
